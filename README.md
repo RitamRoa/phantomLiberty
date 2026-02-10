@@ -1,9 +1,9 @@
-# Baseline Test Animation
+# RitamRoa's Portfolio website but with a twist of chrome
 
-A Cyberpunk/Blade Runner inspired animation built with Remotion and React.
+A Cyberpunk inspired animation built with Remotion and React.
 
 ## Visuals
-- **Phase 1**: Vertical red scanlines/beams (Blade Runner 2049 baseline test style).
+- **Phase 1**: Vertical red scanlines/beams (Cyberpunk 2077 baseline test style).
 - **Transition**: Smooth perspective shift from vertical to horizontal.
 - **Phase 2**: Horizontal grid floor with floating data particles (Cyberpunk aesthetic).
 
