@@ -10,19 +10,19 @@
 }
 
 :root {
-  --neon-red: #ff0033;
+  --neon-red: #FF2A55;
 }
 
 body {
   background-color: black;
-  color: #ff0033;
+  color: #FF2A55;
   overflow-x: hidden;
 }
 
 @theme {
-  --color-neon-red: #ff0033;
+  --color-neon-red: #FF2A55;
 }
 
 .glow-text {
-  text-shadow: 0 0 15px rgba(255, 0, 51, 0.6), 0 0 30px rgba(255, 0, 51, 0.2);
+  text-shadow: 0 0 15px rgba(255, 42, 85, 0.6), 0 0 30px rgba(255, 42, 85, 0.2);
 }

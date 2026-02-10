@@ -7,7 +7,7 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="BaselineTest"
         component={BaselineAnimation}
-        durationInFrames={300} // 5 seconds at 60fps
+        durationInFrames={360} // Extended to 6 seconds
         fps={60}
         width={1920}
         height={1080}
