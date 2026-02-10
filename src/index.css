@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: 'Ryzes';
+  src: url('/fonts/Ryzes.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --neon-red: #ff0033;
+}
+
+body {
+  @apply bg-black text-[#ff0033];
+  overflow-x: hidden;
+}
+
+.glow-text {
+  text-shadow: 0 0 15px rgba(255, 0, 51, 0.6), 0 0 30px rgba(255, 0, 51, 0.2);
+}
