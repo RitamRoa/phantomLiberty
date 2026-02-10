@@ -8,17 +8,26 @@ const App: React.FC = () => {
   const [showDescription, setShowDescription] = useState(false);
 
   useEffect(() => {
+    // Automatically transition after intro duration (5s) as a fallback
+    // and to ensure it "directly goes there"
+    const videoTimer = setTimeout(() => {
+      setIsVideoDone(true);
+    }, 5200); // 5s duration + small buffer
+
+    return () => clearTimeout(videoTimer);
+  }, []);
+
+  useEffect(() => {
     if (isVideoDone) {
-      // Step 1: About Me appears centered for 1s
-      // Step 2: About Me slides to the left
+      // Step 2: About Me moves to target position after delay
       const pinTimer = setTimeout(() => {
         setIsAboutPinned(true);
-      }, 1200);
+      }, 1000);
 
-      // Step 3: Description fades in after move
+      // Step 3: Description starts to appear after move
       const descTimer = setTimeout(() => {
         setShowDescription(true);
-      }, 2200);
+      }, 2000);
 
       return () => {
         clearTimeout(pinTimer);
@@ -54,51 +63,45 @@ const App: React.FC = () => {
             onEnded={() => setIsVideoDone(true)}
           />
         )}
-        
-        {/* Skip Button */}
-        {!isVideoDone && (
-          <button 
-            onClick={() => setIsVideoDone(true)}
-            className="absolute bottom-12 right-12 z-[110] text-[11px] tracking-[0.4em] text-[#ff0033] hover:text-[#ff3366] transition-all uppercase opacity-60 border border-[#ff0033]/40 px-6 py-3 hover:bg-[#ff0033]/10 hover:opacity-100"
-          >
-            TERMINATE_INTRO
-          </button>
-        )}
       </div>
 
       {/* Portfolio Content Layer - On top of video logic */}
       <main className={`relative w-full transition-opacity duration-1000 ${isVideoDone ? 'opacity-100' : 'opacity-0'}`}>
         
-        {/* Cinematic "About Me" Heading */}
+        {/* Animated "About Me" Heading - Starts centered, then moves */}
         <div 
-          className={`fixed transition-all duration-[1200ms] ease-in-out z-[70] pointer-events-none -skew-x-[15deg]
+          className={`fixed transition-all duration-[1200ms] ease-in-out z-[70] pointer-events-none -skew-x-[12deg]
             ${isVideoDone ? 'opacity-100' : 'opacity-0'}
             ${isAboutPinned 
-              ? 'top-[40%] left-16 md:left-32 scale-75 md:scale-90 translate-x-0 translate-y-0' 
+              ? 'top-40 left-16 md:left-32 scale-75 md:scale-90 translate-x-0 translate-y-0' 
               : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150'
             }`}
           style={{ 
             fontFamily: 'Ryzes, cursive',
             color: '#ff0033',
-            textShadow: '0 0 40px rgba(255, 0, 51, 0.7)'
+            textShadow: '0 0 40px rgba(255, 0, 51, 0.4)'
           }}
         >
-          <span className="text-7xl md:text-9xl whitespace-nowrap uppercase tracking-tighter">
+          <h2 className="text-7xl md:text-9xl whitespace-nowrap uppercase tracking-tighter">
             About Me
-          </span>
+          </h2>
         </div>
 
-        {/* Hero Section */}
-        <section className="min-h-screen relative flex flex-col justify-center px-16 md:px-32">
+        {/* Hero Section - Content appears after About Me is pinned */}
+        <section className="min-h-screen relative flex flex-col justify-start pt-80 px-16 md:px-32">
           {/* Background Glow */}
           <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#ff0033]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
           
-          <div className={`mt-48 max-w-4xl space-y-10 transition-all duration-[1200ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+          <div className="max-w-4xl space-y-12">
             <div className="space-y-6">
-              <p className="text-[#ff0033]/90 text-2xl md:text-4xl font-black tracking-tight leading-none uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+              <p 
+                className={`text-[#ff0033]/90 text-2xl md:text-4xl font-black tracking-tight leading-none uppercase transition-all duration-1000 delay-[200ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
+                style={{ fontFamily: '"Orbitron", sans-serif' }}
+              >
                 Architect of the Void.
               </p>
-              <div className="space-y-4">
+              
+              <div className={`space-y-4 transition-all duration-1000 delay-[500ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                 <p className="text-[#ff0033]/70 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
                   I construct digital systems where cinematic fidelity meets absolute performance.
                 </p>
@@ -106,12 +109,16 @@ const App: React.FC = () => {
                   A specialized intersection of immersive creative technology and full-stack engineering.
                 </p>
               </div>
-              <p className="text-[#ff0033]/40 text-sm md:text-base leading-relaxed uppercase tracking-[0.5em] pt-4" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+
+              <p 
+                className={`text-[#ff0033]/40 text-sm md:text-base leading-relaxed uppercase tracking-[0.5em] pt-4 transition-all duration-1000 delay-[800ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
+                style={{ fontFamily: '"Orbitron", sans-serif' }}
+              >
                 SYST_LOG // VR_COMPLIANT // ARCHV_00
               </p>
             </div>
             
-            <div className="flex space-x-10 pt-12 text-[10px] tracking-[0.6em] uppercase">
+            <div className={`flex space-x-10 pt-12 text-[10px] tracking-[0.6em] uppercase transition-all duration-1000 delay-[1100ms] ${showDescription ? 'opacity-100' : 'opacity-0'}`}>
               <a href="#" className="hover:text-white transition-all text-[#ff0033] border-b border-[#ff0033]/50 pb-2 hover:border-[#ff0033]">ACCESS_WORKS</a>
               <a href="#" className="hover:text-white transition-all text-[#ff0033]/60">INIT_COMMS</a>
             </div>
