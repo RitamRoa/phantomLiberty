@@ -90,7 +90,7 @@ const App: React.FC = () => {
               : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150'
             }`}
           style={{ 
-            fontFamily: 'Ryzes, cursive',
+            fontFamily: 'Cyberpunk, cursive',
             color: '#FF2A55',
             textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
           }}
@@ -110,28 +110,60 @@ const App: React.FC = () => {
           <div className="relative max-w-7xl w-full">
             <div className="max-w-4xl space-y-12">
               <div className="space-y-6">
-                <p 
-                  className={`text-[#FF2A55]/90 text-2xl md:text-4xl font-black tracking-tight leading-none uppercase transition-all duration-1000 delay-[200ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
-                  style={{ fontFamily: '"Orbitron", sans-serif' }}
-                >
-                  Architect of the Void.
-                </p>
                 
                 <div className={`space-y-4 transition-all duration-1000 delay-[500ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                   <p className="text-[#FF2A55]/70 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                    I construct digital systems where cinematic fidelity meets absolute performance.
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
                   </p>
                   <p className="text-[#FF2A55]/60 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                    A specialized intersection of immersive creative technology and full-stack engineering.
+                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                   </p>
                 </div>
 
-                <p 
-                  className={`text-[#FF2A55]/40 text-sm md:text-base leading-relaxed uppercase tracking-[0.5em] pt-4 transition-all duration-1000 delay-[800ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`} 
-                  style={{ fontFamily: '"Orbitron", sans-serif' }}
-                >
-                  SYST_LOG // VR_COMPLIANT // ARCHV_00
-                </p>
+                {/* Social Links */}
+                <div className={`flex items-center space-x-6 pt-4 transition-all duration-1000 delay-[600ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  {/* GitHub */}
+                  <a href="https://github.com/RitamRoa" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                    </svg>
+                  </a>
+                  {/* LinkedIn */}
+                  <a href="https://www.linkedin.com/in/ritam-roa/" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                      <rect x="2" y="9" width="4" height="12"></rect>
+                      <circle cx="4" cy="4" r="2"></circle>
+                    </svg>
+                  </a>
+                  {/* Gmail */}
+                  <a href="mailto:ritamrao48@gmail.com" className="text-[#FF2A55] hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                      <polyline points="22,6 12,13 2,6"></polyline>
+                    </svg>
+                  </a>
+                  {/* Instagram */}
+                  <a href="https://www.instagram.com/ritam.roa/" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                    </svg>
+                  </a>
+                </div>
+
+                {/* Book a Call Button */}
+                <div className={`pt-2 transition-all duration-1000 delay-[700ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                  <a href="https://cal.com/ritam-roa" target="_blank" rel="noopener noreferrer" 
+                     className="inline-flex items-center justify-center border border-[#FF2A55] text-[#FF2A55] px-8 py-3 hover:bg-[#FF2A55] hover:text-black transition-all duration-300 uppercase tracking-widest text-sm font-bold group"
+                     style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                    <span>Book a Call</span>
+                    <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </a>
+                </div>
               </div>
               
               <div className={`flex space-x-10 pt-12 text-[10px] tracking-[0.6em] uppercase transition-all duration-1000 delay-[1100ms] ${showDescription ? 'opacity-100' : 'opacity-0'}`}>

@@ -389,7 +389,7 @@ const NameReveal: React.FC<{ progress: number }> = ({ progress }) => {
             perspective: '2000px',
           }}
         >
-          <div style={{ color: '#FF2A55', fontFamily: 'Ryzes, cursive', fontSize: 160, letterSpacing: `${exitSpacing}px` }}>
+          <div style={{ color: '#FF2A55', fontFamily: 'Cyberpunk, cursive', fontSize: 160, letterSpacing: `${exitSpacing}px` }}>
             Ritam Roa
           </div>
         </div>
@@ -414,7 +414,7 @@ const NameReveal: React.FC<{ progress: number }> = ({ progress }) => {
         <div
           style={{
             color: '#FF2A55', 
-            fontFamily: 'Ryzes, cursive',
+            fontFamily: 'Cyberpunk, cursive',
             fontSize: 160,
             fontWeight: 400,
             letterSpacing: `${exitSpacing}px`,
