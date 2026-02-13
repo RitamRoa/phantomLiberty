@@ -5,25 +5,25 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 interface AsciiSphereProps {
   color?: string;
+  size?: number;
 }
 
-export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55' }) => {
+export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55', size = 500 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!containerRef.current) return;
 
-    // Clear any existing content first
     while (containerRef.current.firstChild) {
       containerRef.current.removeChild(containerRef.current.firstChild);
     }
 
-    const width = 500;
-    const height = 500;
+    const width = size;
+    const height = size;
 
     const camera = new THREE.PerspectiveCamera(70, width / height, 1, 1000);
-    camera.position.y = 150;
-    camera.position.z = 500;
+    camera.position.y = 150 * (size / 500);
+    camera.position.z = 500 * (size / 500);
 
     const scene = new THREE.Scene();
     scene.background = new THREE.Color(0, 0, 0);
@@ -37,32 +37,30 @@ export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55' }) =
     pointLight2.position.set(-500, -500, -500);
     scene.add(pointLight2);
 
-    const sphereSize = 200;
+    const sphereSize = 200 * (size / 500);
     const sphere = new THREE.Mesh(
       new THREE.SphereGeometry(sphereSize, 20, 10),
       new THREE.MeshPhongMaterial({ flatShading: true })
     );
     scene.add(sphere);
 
-    // Base/Floor plane
-    const plane = new THREE.Mesh(
-      new THREE.PlaneGeometry(400, 400),
-      new THREE.MeshBasicMaterial({ color: 0x333333 })
-    );
-    plane.position.y = -200;
-    plane.rotation.x = -Math.PI / 2;
-    scene.add(plane);
+    // Removed floor plane for cleaner look
+    // const plane = new THREE.Mesh...
 
-    const renderer = new THREE.WebGLRenderer();
+    const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(width, height);
 
+    // Increased font size relative to size for better performance (fewer chars)
+    const fontSize = Math.max(12, 16 * (size / 500)); 
+    
     const effect = new AsciiEffect(renderer, ' .:-+*=%@#', { invert: true });
     effect.setSize(width, height);
     effect.domElement.style.color = color;
     effect.domElement.style.backgroundColor = 'transparent';
     effect.domElement.style.fontFamily = 'monospace';
-    effect.domElement.style.fontSize = '12px';
-    effect.domElement.style.textShadow = `0 0 15px ${color}, 0 0 5px white`; // Added highlight
+    effect.domElement.style.fontSize = `${fontSize}px`;
+    effect.domElement.style.lineHeight = `${fontSize}px`; // Ensure line height matches
+    effect.domElement.style.textShadow = `0 0 15px ${color}, 0 0 5px white`; 
 
     containerRef.current.appendChild(effect.domElement);
     
@@ -71,37 +69,39 @@ export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55' }) =
     controls.enableZoom = false;
     controls.enablePan = false;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 2.0;
+    controls.autoRotateSpeed = 4.0; // Faster rotation for better effect
 
     let animationId: number;
-    const start = Date.now();
+    let lastTime = 0;
+    const fps = 30; // Limit FPS to 30 for performance
+    const interval = 1000 / fps;
 
-    const animate = () => {
+    const animate = (time: number) => {
       animationId = requestAnimationFrame(animate);
-      const timer = Date.now() - start;
+      
+      const delta = time - lastTime;
+      if (delta > interval) {
+          lastTime = time - (delta % interval);
 
-      // Only bounce, don't auto-rotate mesh if using controls
-      sphere.position.y = 50 + Math.abs(Math.sin(timer * 0.002)) * 150;
-      // We removed the sphere.rotation lines so controls handle rotation of view
-      // But we can keep subtle self-rotation if desired, but user asked for "rotate it"
-      // usually implies the orbital rotation.
-      // Let's keep the bounce.
+          // Animate Sphere Movement
+          const timer = Date.now() * 0.0005;
+          sphere.position.y = (Math.sin(timer * 2) * 20); // Gentle bobbing
 
-      controls.update();
+          controls.update();
 
-      // Subtle static flicker
-      if (Math.random() > 0.98) {
-        effect.domElement.style.opacity = '0.4';
-        effect.domElement.style.transform = `translateX(${(Math.random() - 0.5) * 4}px)`;
-      } else {
-        effect.domElement.style.opacity = '1';
-        effect.domElement.style.transform = 'none';
+          if (Math.random() > 0.98) {
+            effect.domElement.style.opacity = '0.8';
+            effect.domElement.style.transform = `translateX(${(Math.random() - 0.5) * 2}px)`;
+          } else {
+            effect.domElement.style.opacity = '1';
+            effect.domElement.style.transform = 'none';
+          }
+
+          effect.render(scene, camera);
       }
-
-      effect.render(scene, camera);
     };
 
-    animate();
+    requestAnimationFrame(animate);
 
     return () => {
       cancelAnimationFrame(animationId);

@@ -3,6 +3,200 @@ import { Player } from '@remotion/player';
 import { BaselineAnimation } from './BaselineAnimation';
 import { AsciiSphere } from './AsciiSphere';
 
+const GitHubContributionGrid = () => {
+  const [contributionData, setContributionData] = useState<{ date: string; count: number; level: number }[]>([]);
+  const [totalContributions, setTotalContributions] = useState(0);
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [hoveredDay, setHoveredDay] = useState<{ date: string; count: number } | null>(null);
+
+  useEffect(() => {
+    fetch('https://github-contributions-api.jogruber.de/v4/RitamRoa?y=last')
+      .then(res => res.json())
+      .then(data => {
+        const contributions = data.contributions || [];
+        const total = data.total?.lastYear || contributions.reduce((acc: number, curr: any) => acc + curr.count, 0);
+        setTotalContributions(total);
+        setContributionData(contributions);
+
+        // Calculate Streak
+        let streak = 0;
+        // Check from the end (most recent) backwards
+        // Note: The API might return today as the last entry, or yesterday.
+        // We iterate backwards until we find a 0.
+        // If the last day is 0, we check if it's today (streak might still be active if yesterday was active)
+        // For simplicity, just count consecutive non-zeros from the end.
+        for (let i = contributions.length - 1; i >= 0; i--) {
+            if (contributions[i].count > 0) {
+                streak++;
+            } else {
+                // If the very last entry is 0, and it's today, we might skip it?
+                // But generally, a streak breaks on 0.
+                // Let's just break for now.
+                if (i === contributions.length - 1) continue; 
+                break;
+            }
+        }
+        setCurrentStreak(streak);
+      })
+      .catch(err => {
+        console.error("Failed to fetch GitHub data", err);
+      });
+  }, []);
+
+  const colors = [
+    'bg-[#1a1a1a]',   // Level 0
+    'bg-[#440005]',   // Level 1
+    'bg-[#880011]',   // Level 2
+    'bg-[#ff0033]',   // Level 3
+    'bg-[#ff0033]',   // Level 4
+  ];
+
+  return (
+    <div className="bg-[#0a0a0a]/80 border border-[#ff0033]/20 rounded-2xl p-6 backdrop-blur-sm self-start group hover:border-[#ff0033]/40 transition-all duration-500 overflow-hidden relative w-full max-w-2xl">
+      {/* Decorative Corner Glitch */}
+      <div className="absolute top-0 right-0 w-8 h-8 opacity-20 pointer-events-none">
+        <div className="absolute top-2 right-2 w-4 h-[1px] bg-[#ff0033]" />
+        <div className="absolute top-2 right-2 w-[1px] h-4 bg-[#ff0033]" />
+      </div>
+
+      <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center space-x-3">
+            <div className="relative">
+              <div className="w-2.5 h-2.5 bg-[#ff0033] rounded-full animate-pulse" />
+              <div className="absolute inset-0 w-2.5 h-2.5 bg-[#ff0033] rounded-full animate-ping opacity-50" />
+            </div>
+            <h3 className="text-sm font-bold tracking-[0.3em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>Activity_Log</h3>
+          </div>
+          <div className="text-right">
+            <div className="text-[10px] text-[#ff0033] font-bold font-mono tracking-widest">{totalContributions}_COMMITS</div>
+            <div className="text-[8px] text-[#ff0033]/40 font-mono tracking-tighter uppercase">Total_Contributions</div>
+          </div>
+      </div>
+
+      {/* Scrollable Container */}
+      <div className="relative">
+        <div className="overflow-x-auto pb-2 scrollbar-hide flex flex-row-reverse"> 
+             {/* flex-row-reverse to start scrolled to the right (latest) mostly? No, standard scroll starts at left. 
+                We want to see the LATEST. So we should scroll to end or use rtl direction? 
+                Actually standard GitHub grids show left-to-right Jan-Dec.
+                Let's stick to standard left-to-right.
+             */}
+             <div className="grid grid-flow-col grid-rows-7 gap-1 min-w-max pr-4">
+                {contributionData.map((day, i) => (
+                    <div 
+                    key={i} 
+                    className={`w-3 h-3 md:w-[13px] md:h-[13px] rounded-[2px] transition-all duration-300 hover:scale-150 hover:z-10 hover:shadow-[0_0_15px_rgba(255,0,51,0.8)] cursor-pointer ${colors[day.level] || colors[0]}`}
+                    onMouseEnter={() => setHoveredDay(day)}
+                    onMouseLeave={() => setHoveredDay(null)}
+                    >
+                    </div>
+                ))}
+            </div>
+        </div>
+        {/* Tooltip Overlay */}
+        {hoveredDay && (
+            <div className="absolute top-0 right-0 bg-[#0a0a0a] border border-[#ff0033]/40 px-3 py-1 rounded text-[10px] text-[#ff0033] font-mono z-20 pointer-events-none">
+                {hoveredDay.count} contributions on {hoveredDay.date}
+            </div>
+        )}
+      </div>
+
+      <div className="flex items-center justify-between mt-8 pt-4 border-t border-[#ff0033]/10">
+          <div className="flex flex-col">
+            <span className="text-[10px] text-[#ff0033]/60 font-mono font-bold tracking-widest">{currentStreak}_DAY_STREAK</span>
+            <span className="text-[8px] text-[#ff0033]/30 font-mono">NODE_STABILITY: MAX</span>
+          </div>
+          <div className="flex items-center space-x-1.5 bg-[#ff0033]/5 px-3 py-1.5 rounded-md">
+            <span className="text-[9px] text-[#ff0033]/40 mr-1 uppercase tracking-widest font-bold">LEGEND:</span>
+            {colors.map(c => <div key={c} className={`w-2 h-2 rounded-xs shadow-[0_0_2px_rgba(0,0,0,1)] ${c}`} />)}
+          </div>
+      </div>
+    </div>
+  );
+};
+
+const TechStack = () => {
+  const tools = [
+      { name: 'Python', icon: 'python', prof: 90 },
+      { name: 'JavaScript', icon: 'javascript', prof: 95 },
+      { name: 'C++', icon: 'cplusplus', prof: 85 },
+      { name: 'HTML5', icon: 'html5', prof: 98 },
+      { name: 'CSS3', icon: 'css3', prof: 95 },
+      { name: 'React', icon: 'react', prof: 98 },
+      { name: 'Next.js', icon: 'nextdotjs', prof: 92 },
+      { name: 'Node.js', icon: 'nodedotjs', prof: 80 },
+      { name: 'Git', icon: 'git', prof: 88 },
+      { name: 'Vercel', icon: 'vercel', prof: 85 },
+      { name: 'Supabase', icon: 'supabase', prof: 80 },
+  ];
+  
+  // Create a doubled list for infinite marquee
+  const marqueeTools = [...tools, ...tools, ...tools];
+
+  return (
+      <div className="bg-[#0a0a0a]/80 border border-[#ff0033]/20 rounded-2xl p-6 backdrop-blur-sm group hover:border-[#ff0033]/40 transition-all duration-500 overflow-hidden relative w-full h-full flex flex-col">
+           <style>{`
+             @keyframes marquee {
+               0% { transform: translateX(0); }
+               100% { transform: translateX(-50%); }
+             }
+             .animate-marquee {
+               animation: marquee 30s linear infinite;
+             }
+             /* Pause on hover for interaction */
+             .group:hover .animate-marquee {
+               animation-play-state: paused;
+             }
+           `}</style>
+
+           {/* Decorative Lines */}
+           <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#ff0033]/20 to-transparent" />
+
+           <div className="flex items-center justify-between mb-8">
+              <div className="flex items-center space-x-3">
+                  <div className="w-2.5 h-2.5 bg-[#ff0033] rounded-full animate-pulse" />
+                  <h3 className="text-sm font-bold tracking-[0.3em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>Loadout_v4.2</h3>
+              </div>
+              <div className="text-right">
+                <div className="text-[10px] text-[#ff0033] font-bold font-mono tracking-[0.2em]">CORE_SYNCED</div>
+                <div className="text-[8px] text-[#ff0033]/40 font-mono tracking-tighter uppercase">Memory_Mapped</div>
+              </div>
+          </div>
+
+          <div className="relative flex-1 flex items-center overflow-hidden w-full">
+               <div className="absolute left-0 top-0 bottom-0 w-8 z-10 bg-gradient-to-r from-[#0a0a0a] to-transparent" />
+               <div className="absolute right-0 top-0 bottom-0 w-8 z-10 bg-gradient-to-l from-[#0a0a0a] to-transparent" />
+               
+               <div className="flex animate-marquee gap-6 min-w-max">
+                  {marqueeTools.map((tool, idx) => (
+                      <div key={`${tool.name}-${idx}`} 
+                           className="group/icon relative flex flex-col items-center justify-center w-24 h-24 border border-[#ff0033]/5 transition-all duration-300 hover:border-[#ff0033]/40 hover:bg-[#ff0033]/10 rounded-xl cursor-crosshair overflow-visible shrink-0">
+                          
+                          <img 
+                            src={`https://cdn.simpleicons.org/${tool.icon}/ff0033`} 
+                            alt={tool.name}
+                            className="w-10 h-10 opacity-60 group-hover/icon:opacity-100 transition-all duration-300 group-hover/icon:scale-110"
+                          />
+                          <span className="text-[9px] mt-3 text-[#ff0033]/40 uppercase tracking-[0.2em] transition-colors group-hover/icon:text-[#ff0033] font-bold">{tool.name}</span>
+                      </div>
+                  ))}
+               </div>
+          </div>
+
+          <div className="mt-8 grid grid-cols-2 gap-4">
+              <div className="border border-[#ff0033]/10 rounded-lg p-3 bg-white/1">
+                <div className="text-[8px] text-[#ff0033]/40 uppercase tracking-widest mb-1">MOST_ACTIVE</div>
+                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">FRONTEND_ENGINEERING</div>
+              </div>
+              <div className="border border-[#ff0033]/10 rounded-lg p-3 bg-white/1">
+                <div className="text-[8px] text-[#ff0033]/40 uppercase tracking-widest mb-1">SYSTEM_OS</div>
+                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">NEURAL_PROJECT_X</div>
+              </div>
+          </div>
+      </div>
+  );
+};
+
 const App: React.FC = () => {
   const [isVideoDone, setIsVideoDone] = useState(false);
   const [isAboutPinned, setIsAboutPinned] = useState(false);
@@ -83,27 +277,38 @@ const App: React.FC = () => {
         
         {/* Animated "About Me" Heading - Starts centered, then moves */}
         <div 
-          className={`fixed transition-all duration-[1200ms] ease-in-out z-[70] pointer-events-none -skew-x-[15deg]
+          className={`fixed transition-all duration-[1200ms] ease-in-out z-[70] pointer-events-none 
             ${isVideoDone ? 'opacity-100' : 'opacity-0'}
             ${isAboutPinned 
-              ? 'top-40 left-16 md:left-32 scale-75 md:scale-95 translate-x-0 translate-y-0' 
+              ? 'top-16 md:top-20 left-16 md:left-32 scale-75 md:scale-95 translate-x-0 translate-y-0' 
               : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150'
             }`}
-          style={{ 
-            fontFamily: 'Cyberpunk, cursive',
-            color: '#FF2A55',
-            textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
-          }}
         >
-          <h2 className="text-7xl md:text-9xl whitespace-nowrap uppercase tracking-tighter italic relative">
-            About Me
-            {/* Animated Highlight underline like in the pic */}
-            <div className={`absolute -bottom-2 left-0 h-1 bg-[#FF2A55] transition-all duration-1000 delay-[1000ms] ${isAboutPinned ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
-          </h2>
+          <div className="flex items-center relative">
+            <div className="-skew-x-[15deg]">
+              <h2 className="text-7xl md:text-9xl whitespace-nowrap uppercase tracking-tighter italic relative"
+                  style={{ 
+                    fontFamily: 'Cyberpunk, cursive',
+                    color: '#FF2A55',
+                    textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
+                  }}>
+                About Me
+                {/* Animated Highlight underline like in the pic */}
+                <div className={`absolute -bottom-2 left-0 h-1 bg-[#FF2A55] transition-all duration-1000 delay-[1000ms] ${isAboutPinned ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+              </h2>
+            </div>
+            
+            {/* ASCII Sphere independent positioning to avoid layout shift */}
+            <div className={`absolute left-full top-1/2 -translate-y-1/2 ml-12 transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
+                <div className="w-[300px] h-[300px] pointer-events-auto">
+                    <AsciiSphere color="#FF2A55" size={400} />
+                </div>
+            </div>
+          </div>
         </div>
 
         {/* Hero Section - Content appears after About Me is pinned */}
-        <section className="min-h-screen relative flex flex-col justify-start pt-80 pb-32 px-16 md:px-32">
+        <section className="min-h-screen relative flex flex-col justify-start pt-80 pb-64 px-16 md:px-32">
           {/* Background Glow */}
           <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#FF2A55]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
           
@@ -170,14 +375,16 @@ const App: React.FC = () => {
                 <a href="#" className="hover:text-white transition-all text-[#FF2A55] border-b border-[#FF2A55]/50 pb-2 hover:border-[#FF2A55]">ACCESS_WORKS</a>
                 <a href="#" className="hover:text-white transition-all text-[#FF2A55]/60">INIT_COMMS</a>
               </div>
+
+              {/* Bento Section - Widgets */}
+              <div className={`mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                  <GitHubContributionGrid />
+                  <TechStack />
+              </div>
             </div>
           </div>
         </section>
 
-        {/* ASCII Sphere Decoration - Fixed position on right side, stays during scroll */}
-        <div className={`fixed right-24 top-[40%] -translate-y-1/2 w-[500px] h-[500px] z-[50] transition-all duration-1000 delay-[1500ms] ${showDescription ? 'opacity-100 scale-100' : 'opacity-0 scale-0'}`}>
-          {isAboutPinned && <AsciiSphere color="#FF2A55" />}
-        </div>
 
         {/* Scroll Indicator */}
         <div className={`fixed bottom-12 left-1/2 -translate-x-1/2 transition-opacity duration-1000 ${showDescription ? 'opacity-40' : 'opacity-0'}`}>
