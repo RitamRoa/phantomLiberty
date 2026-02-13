@@ -8,7 +8,7 @@ interface AsciiSphereProps {
   size?: number;
 }
 
-export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55', size = 500 }) => {
+export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55', size = 400 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -44,14 +44,20 @@ export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55', siz
     );
     scene.add(sphere);
 
-    // Removed floor plane for cleaner look
-    // const plane = new THREE.Mesh...
+    // Base/Floor plane
+    const plane = new THREE.Mesh(
+      new THREE.PlaneGeometry(400, 400),
+      new THREE.MeshBasicMaterial({ color: 0x333333, transparent: true, opacity: 0.8 })
+    );
+    plane.position.y = -200 * (size / 500);
+    plane.rotation.x = -Math.PI / 2;
+    scene.add(plane);
 
     const renderer = new THREE.WebGLRenderer({ alpha: true });
     renderer.setSize(width, height);
 
-    // Increased font size relative to size for better performance (fewer chars)
-    const fontSize = Math.max(12, 16 * (size / 500)); 
+    // Fixed small font size for higher resolution/more 3D detail
+    const fontSize = 12 * (size / 500); 
     
     const effect = new AsciiEffect(renderer, ' .:-+*=%@#', { invert: true });
     effect.setSize(width, height);
@@ -59,49 +65,42 @@ export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55', siz
     effect.domElement.style.backgroundColor = 'transparent';
     effect.domElement.style.fontFamily = 'monospace';
     effect.domElement.style.fontSize = `${fontSize}px`;
-    effect.domElement.style.lineHeight = `${fontSize}px`; // Ensure line height matches
+    effect.domElement.style.lineHeight = `${fontSize}px`;
     effect.domElement.style.textShadow = `0 0 15px ${color}, 0 0 5px white`; 
 
     containerRef.current.appendChild(effect.domElement);
     
     // Add controls
     const controls = new OrbitControls(camera, effect.domElement);
-    controls.enableZoom = false;
+    controls.enableZoom = false; // Zoom can break the ascii effect sizing sometimes
     controls.enablePan = false;
     controls.autoRotate = true;
-    controls.autoRotateSpeed = 4.0; // Faster rotation for better effect
+    controls.autoRotateSpeed = 2.0;
 
     let animationId: number;
-    let lastTime = 0;
-    const fps = 30; // Limit FPS to 30 for performance
-    const interval = 1000 / fps;
+    const start = Date.now();
 
-    const animate = (time: number) => {
+    const animate = () => {
       animationId = requestAnimationFrame(animate);
+      const timer = Date.now() - start;
+
+      // Dynamic bounce
+      sphere.position.y = (50 * (size / 500)) + Math.abs(Math.sin(timer * 0.002)) * (100 * (size / 500));
       
-      const delta = time - lastTime;
-      if (delta > interval) {
-          lastTime = time - (delta % interval);
+      controls.update();
 
-          // Animate Sphere Movement
-          const timer = Date.now() * 0.0005;
-          sphere.position.y = (Math.sin(timer * 2) * 20); // Gentle bobbing
-
-          controls.update();
-
-          if (Math.random() > 0.98) {
-            effect.domElement.style.opacity = '0.8';
-            effect.domElement.style.transform = `translateX(${(Math.random() - 0.5) * 2}px)`;
-          } else {
-            effect.domElement.style.opacity = '1';
-            effect.domElement.style.transform = 'none';
-          }
-
-          effect.render(scene, camera);
+      if (Math.random() > 0.95) { // Increased glitch frequency slightly
+        effect.domElement.style.opacity = '0.8';
+        effect.domElement.style.transform = `translateX(${(Math.random() - 0.5) * 4}px)`;
+      } else {
+        effect.domElement.style.opacity = '1';
+        effect.domElement.style.transform = 'none';
       }
+
+      effect.render(scene, camera);
     };
 
-    requestAnimationFrame(animate);
+    animate();
 
     return () => {
       cancelAnimationFrame(animationId);

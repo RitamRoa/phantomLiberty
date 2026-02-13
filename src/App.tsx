@@ -275,37 +275,53 @@ const App: React.FC = () => {
       {/* Portfolio Content Layer - On top of video logic */}
       <main className={`relative w-full transition-opacity duration-1000 ${isVideoDone ? 'opacity-100' : 'opacity-0'}`}>
         
-        {/* Animated "About Me" Heading - Starts centered, then moves */}
+        {/* Animated "About Me" Heading - Starts centered, then moves using transform for smoothness */}
         <div 
-          className={`fixed transition-all duration-[1200ms] ease-in-out z-[70] pointer-events-none 
+          className={`fixed transition-transform duration-[1200ms] cubic-bezier(0.16, 1, 0.3, 1) z-[70] pointer-events-none 
             ${isVideoDone ? 'opacity-100' : 'opacity-0'}
             ${isAboutPinned 
-              ? 'top-16 md:top-20 left-16 md:left-32 scale-75 md:scale-95 translate-x-0 translate-y-0' 
-              : 'top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150'
+              ? 'translate-x-[4rem] translate-y-[5rem] scale-95 origin-top-left' 
+              : 'translate-x-1/2 translate-y-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 origin-center text-center'
             }`}
+          style={{ willChange: 'transform', top: 0, left: 0 }} 
         >
-          <div className="flex items-center relative">
-            <div className="-skew-x-[15deg]">
-              <h2 className="text-7xl md:text-9xl whitespace-nowrap uppercase tracking-tighter italic relative"
-                  style={{ 
-                    fontFamily: 'Cyberpunk, cursive',
-                    color: '#FF2A55',
-                    textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
-                  }}>
-                About Me
-                {/* Animated Highlight underline like in the pic */}
-                <div className={`absolute -bottom-2 left-0 h-1 bg-[#FF2A55] transition-all duration-1000 delay-[1000ms] ${isAboutPinned ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
-              </h2>
-            </div>
-            
-            {/* ASCII Sphere independent positioning to avoid layout shift */}
-            <div className={`absolute left-full top-1/2 -translate-y-1/2 ml-12 transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-20'}`}>
-                <div className="w-[300px] h-[300px] pointer-events-auto">
-                    <AsciiSphere color="#FF2A55" size={400} />
-                </div>
-            </div>
+           {/* Center Logic: top-0 left-0 fixed container. 
+               Initial: translate(50vw, 50vh) - translate(50%, 50%) is center.
+               Pinned: translate(4rem, 5rem). 
+           */}
+           <div 
+             className={`transition-all duration-[1200ms] delay-0 
+             ${isAboutPinned ? 'translate-x-0 translate-y-0' : 'translate-x-[50vw] translate-y-[50vh] -translate-x-1/2 -translate-y-1/2'}`}
+           >
+              <div className="-skew-x-[15deg]">
+                <h2 className="text-7xl md:text-9xl whitespace-nowrap uppercase tracking-tighter italic relative"
+                    style={{ 
+                      fontFamily: 'Cyberpunk, cursive',
+                      color: '#FF2A55',
+                      textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
+                    }}>
+                  About Me
+                  {/* Animated Highlight underline like in the pic */}
+                  <div className={`absolute -bottom-2 left-0 h-1 bg-[#FF2A55] transition-all duration-1000 delay-[1000ms] ${isAboutPinned ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+                </h2>
+              </div>
           </div>
         </div>
+        
+        {/* Helper layout container to find "empty space" on the right - Viewport Relative */}
+        <div className="fixed inset-0 pointer-events-none overflow-hidden z-[65]"> 
+            {/* Sphere Positioned to the right of the viewport */}
+            <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
+                {/* Only render when visible to save resources */}
+                {isAboutPinned && (
+                  <div className="w-[600px] h-[600px] pointer-events-auto hover:cursor-grab active:cursor-grabbing">
+                      <AsciiSphere color="#FF2A55" size={600} />
+                  </div>
+                )}
+            </div>
+        </div>
+
+        {/* Hero Section - Content appears after About Me is pinned */}
 
         {/* Hero Section - Content appears after About Me is pinned */}
         <section className="min-h-screen relative flex flex-col justify-start pt-80 pb-64 px-16 md:px-32">
@@ -370,7 +386,7 @@ const App: React.FC = () => {
                   </a>
                 </div>
               </div>
-              
+
               <div className={`flex space-x-10 pt-12 text-[10px] tracking-[0.6em] uppercase transition-all duration-1000 delay-[1100ms] ${showDescription ? 'opacity-100' : 'opacity-0'}`}>
                 <a href="#" className="hover:text-white transition-all text-[#FF2A55] border-b border-[#FF2A55]/50 pb-2 hover:border-[#FF2A55]">ACCESS_WORKS</a>
                 <a href="#" className="hover:text-white transition-all text-[#FF2A55]/60">INIT_COMMS</a>
