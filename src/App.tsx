@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Player } from '@remotion/player';
 import { BaselineAnimation } from './BaselineAnimation';
 import { AsciiSphere } from './AsciiSphere';
+import MusicPlayer from './MusicPlayer';
 
 const GitHubContributionGrid = () => {
   const [contributionData, setContributionData] = useState<{ date: string; count: number; level: number }[]>([]);
@@ -108,7 +109,7 @@ const GitHubContributionGrid = () => {
           </div>
           <div className="flex items-center space-x-1.5 bg-[#ff0033]/5 px-3 py-1.5 rounded-md">
             <span className="text-[9px] text-[#ff0033]/40 mr-1 uppercase tracking-widest font-bold">LEGEND:</span>
-            {colors.map(c => <div key={c} className={`w-2 h-2 rounded-xs shadow-[0_0_2px_rgba(0,0,0,1)] ${c}`} />)}
+            {colors.map((c, i) => <div key={`${c}-${i}`} className={`w-2 h-2 rounded-xs shadow-[0_0_2px_rgba(0,0,0,1)] ${c}`} />)}
           </div>
       </div>
     </div>
@@ -277,7 +278,7 @@ const App: React.FC = () => {
         
         {/* Animated "About Me" Heading - Starts centered, then moves using transform for smoothness */}
         <div 
-          className={`fixed transition-transform duration-[1200ms] cubic-bezier(0.16, 1, 0.3, 1) z-[70] pointer-events-none 
+          className={`absolute transition-transform duration-[1200ms] cubic-bezier(0.16, 1, 0.3, 1) z-[70] pointer-events-none 
             ${isVideoDone ? 'opacity-100' : 'opacity-0'}
             ${isAboutPinned 
               ? 'translate-x-[4rem] translate-y-[5rem] scale-95 origin-top-left' 
@@ -309,7 +310,7 @@ const App: React.FC = () => {
         </div>
         
         {/* Helper layout container to find "empty space" on the right - Viewport Relative */}
-        <div className="fixed inset-0 pointer-events-none overflow-hidden z-[65]"> 
+        <div className="absolute top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-[65]"> 
             {/* Sphere Positioned to the right of the viewport */}
             <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
                 {/* Only render when visible to save resources */}
@@ -322,6 +323,11 @@ const App: React.FC = () => {
         </div>
 
         {/* Hero Section - Content appears after About Me is pinned */}
+
+        {/* Music Player - Positioned above the sphere (right side), scrolls with content */}
+        <div className={`absolute top-[12vh] right-[10%] z-[80] transition-opacity duration-1000 delay-[1500ms] ${isAboutPinned ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+           <MusicPlayer />
+        </div>
 
         {/* Hero Section - Content appears after About Me is pinned */}
         <section className="min-h-screen relative flex flex-col justify-start pt-80 pb-64 px-16 md:px-32">
