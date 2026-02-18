@@ -1,5 +1,4 @@
 # RitamRoa's Portfolio website but with a twist of chrome
------
 A Cyberpunk inspired animation built with Remotion and React.
 
 ## Visuals
