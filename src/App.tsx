@@ -375,7 +375,7 @@ const App: React.FC = () => {
                     </div>
 
                     {/* Book a Call Button */}
-                    <div className={`pt-2 transition-all duration-1000 delay-[700ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                    <div className={`pt-8 pb-8 transition-all duration-1000 delay-[700ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                       <a href="https://cal.com/ritam-roa" target="_blank" rel="noopener noreferrer" 
                         className="inline-flex items-center justify-center border border-[#FF2A55] text-[#FF2A55] px-8 py-3 hover:bg-[#FF2A55] hover:text-black transition-all duration-300 uppercase tracking-widest text-sm font-bold group"
                         style={{ fontFamily: '"Orbitron", sans-serif' }}>
