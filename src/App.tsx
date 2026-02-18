@@ -215,7 +215,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     if (isVideoDone) {
-      // Step 2: About Me moves to target position after delay
       const pinTimer = setTimeout(() => {
         setIsAboutPinned(true);
       }, 1000);
@@ -278,11 +277,11 @@ const App: React.FC = () => {
         
         {/* Animated "About Me" Heading - Starts centered, then moves using transform for smoothness */}
         <div 
-          className={`absolute transition-transform duration-[1200ms] cubic-bezier(0.16, 1, 0.3, 1) z-[70] pointer-events-none 
+          className={`fixed transition-transform duration-[1200ms] cubic-bezier(0.16, 1, 0.3, 1) z-0 pointer-events-none 
             ${isVideoDone ? 'opacity-100' : 'opacity-0'}
             ${isAboutPinned 
-              ? 'translate-x-[4rem] translate-y-[5rem] scale-95 origin-top-left' 
-              : 'translate-x-1/2 translate-y-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 origin-center text-center'
+              ? 'translate-x-[3rem] translate-y-[4rem] scale-[0.6] origin-top-left' 
+              : 'translate-x-1/2 translate-y-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 origin-center text-center z-[70]'
             }`}
           style={{ willChange: 'transform', top: 0, left: 0 }} 
         >
@@ -310,7 +309,7 @@ const App: React.FC = () => {
         </div>
         
         {/* Helper layout container to find "empty space" on the right - Viewport Relative */}
-        <div className="absolute top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-[65]"> 
+        <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-[65]"> 
             {/* Sphere Positioned to the right of the viewport */}
             <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
                 {/* Only render when visible to save resources */}
@@ -325,86 +324,154 @@ const App: React.FC = () => {
         {/* Hero Section - Content appears after About Me is pinned */}
 
         {/* Music Player - Positioned above the sphere (right side), scrolls with content */}
-        <div className={`absolute top-[12vh] right-[10%] z-[80] transition-opacity duration-1000 delay-[1500ms] ${isAboutPinned ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className={`fixed top-[12vh] right-[10%] z-[80] transition-opacity duration-1000 delay-[1500ms] ${isAboutPinned ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
            <MusicPlayer />
         </div>
 
         {/* Hero Section - Content appears after About Me is pinned */}
-        <section className="min-h-screen relative flex flex-col justify-start pt-80 pb-64 px-16 md:px-32">
-          {/* Background Glow */}
-          <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#FF2A55]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
-          
-          <div className="relative max-w-7xl w-full">
-            <div className="max-w-4xl space-y-12">
-              <div className="space-y-6">
-                
-                <div className={`space-y-4 transition-all duration-1000 delay-[500ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                  <p className="text-[#FF2A55]/70 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                  </p>
-                  <p className="text-[#FF2A55]/60 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                  </p>
-                </div>
+        {/* We use 'fixed' for the hero content so it stays in place while 'Experience' scrolls over it */}
+        <div className="relative z-[10] h-[150vh] pointer-events-none">
+             {/* Fixed content container */}
+             <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-end pb-32 md:justify-center md:pb-0">
+                 {/* Only allow pointer events on the content itself */}
+                 <section className="relative flex flex-col justify-center px-8 md:px-32 pointer-events-auto h-full max-h-screen overflow-hidden">
+              {/* Background Glow */}
+              <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#FF2A55]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
+              
+              <div className="relative max-w-7xl w-full pt-32 md:pt-0">
+                <div className="max-w-4xl space-y-8 md:space-y-12">
+                  <div className="space-y-6">
+                    
+                    <div className={`space-y-4 transition-all duration-1000 delay-[500ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                      <p className="text-[#FF2A55]/70 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+                      </p>
+                      <p className="text-[#FF2A55]/60 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                      </p>
+                    </div>
 
-                {/* Social Links */}
-                <div className={`flex items-center space-x-6 pt-4 transition-all duration-1000 delay-[600ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                  {/* GitHub */}
-                  <a href="https://github.com/RitamRoa" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-                    </svg>
-                  </a>
-                  {/* LinkedIn */}
-                  <a href="https://www.linkedin.com/in/ritam-roa/" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                      <rect x="2" y="9" width="4" height="12"></rect>
-                      <circle cx="4" cy="4" r="2"></circle>
-                    </svg>
-                  </a>
-                  {/* Gmail */}
-                  <a href="mailto:ritamrao48@gmail.com" className="text-[#FF2A55] hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                      <polyline points="22,6 12,13 2,6"></polyline>
-                    </svg>
-                  </a>
-                  {/* Instagram */}
-                  <a href="https://www.instagram.com/ritam.roa/" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-                      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-                      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
-                    </svg>
-                  </a>
-                </div>
+                    {/* Social Links */}
+                    <div className={`flex items-center space-x-6 pt-4 transition-all duration-1000 delay-[600ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                      {/* GitHub */}
+                      <a href="https://github.com/RitamRoa" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                      </a>
+                      {/* LinkedIn */}
+                      <a href="https://www.linkedin.com/in/ritam-roa/" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                          <rect x="2" y="9" width="4" height="12"></rect>
+                          <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                      </a>
+                      {/* Gmail */}
+                      <a href="mailto:ritamrao48@gmail.com" className="text-[#FF2A55] hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                          <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                      </a>
+                      {/* Instagram */}
+                      <a href="https://www.instagram.com/ritam.roa/" target="_blank" rel="noopener noreferrer" className="text-[#FF2A55] hover:text-white transition-colors">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                        </svg>
+                      </a>
+                    </div>
 
-                {/* Book a Call Button */}
-                <div className={`pt-2 transition-all duration-1000 delay-[700ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-                  <a href="https://cal.com/ritam-roa" target="_blank" rel="noopener noreferrer" 
-                     className="inline-flex items-center justify-center border border-[#FF2A55] text-[#FF2A55] px-8 py-3 hover:bg-[#FF2A55] hover:text-black transition-all duration-300 uppercase tracking-widest text-sm font-bold group"
-                     style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                    <span>Book a Call</span>
-                    <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </a>
+                    {/* Book a Call Button */}
+                    <div className={`pt-2 transition-all duration-1000 delay-[700ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                      <a href="https://cal.com/ritam-roa" target="_blank" rel="noopener noreferrer" 
+                        className="inline-flex items-center justify-center border border-[#FF2A55] text-[#FF2A55] px-8 py-3 hover:bg-[#FF2A55] hover:text-black transition-all duration-300 uppercase tracking-widest text-sm font-bold group"
+                        style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                        <span>Book a Call</span>
+                        <svg className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className={`flex space-x-10 pt-12 text-[10px] tracking-[0.6em] uppercase transition-all duration-1000 delay-[1100ms] ${showDescription ? 'opacity-100' : 'opacity-0'}`}>
+                    <a href="#" className="hover:text-white transition-all text-[#FF2A55] border-b border-[#FF2A55]/50 pb-2 hover:border-[#FF2A55]">ACCESS_WORKS</a>
+                    <a href="#" className="hover:text-white transition-all text-[#FF2A55]/60">INIT_COMMS</a>
+                  </div>
+
+                  {/* Bento Section - Widgets */}
+                  <div className={`mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                      <GitHubContributionGrid />
+                      <TechStack />
+                  </div>
                 </div>
               </div>
+            </section>
+             </div>
+        </div>
 
-              <div className={`flex space-x-10 pt-12 text-[10px] tracking-[0.6em] uppercase transition-all duration-1000 delay-[1100ms] ${showDescription ? 'opacity-100' : 'opacity-0'}`}>
-                <a href="#" className="hover:text-white transition-all text-[#FF2A55] border-b border-[#FF2A55]/50 pb-2 hover:border-[#FF2A55]">ACCESS_WORKS</a>
-                <a href="#" className="hover:text-white transition-all text-[#FF2A55]/60">INIT_COMMS</a>
-              </div>
+        {/* Experiences Section - overlaps previous section */}
+        <section className="relative w-full min-h-screen z-20 pt-32 pb-64 px-16 md:px-32 bg-black">
+             {/* Decorative Top Gradient to smooth the overlap */}
+             <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-transparent to-black -mt-64 pointer-events-none" />
+             
+             <div className="relative max-w-7xl w-full mx-auto">
+                 {/* Section Header */}
+                 <div className="mb-20">
+                    <h2 className="text-6xl md:text-8xl whitespace-nowrap uppercase tracking-tighter italic relative inline-block z-30"
+                        style={{ 
+                            fontFamily: 'Cyberpunk, cursive',
+                            color: '#FF2A55',
+                            textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
+                        }}>
+                        Experiences
+                        <div className="absolute -bottom-2 left-0 w-full h-1 bg-[#FF2A55] opacity-50" />
+                    </h2>
+                    <div className="mt-4 flex items-center space-x-2">
+                        <div className="w-2 h-2 bg-[#FF2A55] animate-pulse" />
+                        <span className="text-xs text-[#FF2A55]/60 font-mono tracking-[0.3em] uppercase">Career_Logs // Decryped</span>
+                    </div>
+                 </div>
 
-              {/* Bento Section - Widgets */}
-              <div className={`mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
-                  <GitHubContributionGrid />
-                  <TechStack />
-              </div>
-            </div>
-          </div>
+                 {/* Experience Items Placeholder */}
+                 <div className="space-y-12 border-l-2 border-[#FF2A55]/20 pl-8 ml-4 md:ml-10">
+                     
+                     {/* Experience Item 1 */}
+                     <div className="relative group">
+                         {/* Timeline Dot */}
+                         <div className="absolute -left-[41px] top-2 w-5 h-5 bg-[#0a0a0a] border-2 border-[#FF2A55] rounded-full group-hover:bg-[#FF2A55] group-hover:shadow-[0_0_20px_rgba(255,42,85,0.6)] transition-all duration-300">
+                            <div className="absolute inset-0 bg-[#FF2A55] rounded-full opacity-0 group-hover:animate-ping" />
+                         </div>
+
+                         <div className="space-y-2 mb-2">
+                             <div className="text-xs text-[#FF2A55] font-mono tracking-widest uppercase">2023 - Present</div>
+                             <h3 className="text-2xl md:text-3xl text-white font-bold uppercase tracking-wide" style={{ fontFamily: '"Orbitron", sans-serif' }}>Senior Netrunner</h3>
+                             <div className="text-sm text-[#FF2A55]/80 font-mono uppercase tracking-wider">Arasaka Corp (Placeholder)</div>
+                         </div>
+                         <p className="text-[#FF2A55]/60 text-base md:text-lg max-w-2xl leading-relaxed" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Breaching firewalls and extracting secure data packages. Leading a team of phantom agents in cyberspace.
+                         </p>
+                     </div>
+
+                      {/* Experience Item 2 */}
+                      <div className="relative group">
+                         <div className="absolute -left-[41px] top-2 w-5 h-5 bg-[#0a0a0a] border-2 border-[#FF2A55] rounded-full group-hover:bg-[#FF2A55] group-hover:shadow-[0_0_20px_rgba(255,42,85,0.6)] transition-all duration-300" />
+
+                         <div className="space-y-2 mb-2">
+                             <div className="text-xs text-[#FF2A55] font-mono tracking-widest uppercase">2021 - 2023</div>
+                             <h3 className="text-2xl md:text-3xl text-white font-bold uppercase tracking-wide" style={{ fontFamily: '"Orbitron", sans-serif' }}>Cyber Security Analyst</h3>
+                             <div className="text-sm text-[#FF2A55]/80 font-mono uppercase tracking-wider">Militech Systems</div>
+                         </div>
+                         <p className="text-[#FF2A55]/60 text-base md:text-lg max-w-2xl leading-relaxed" style={{ fontFamily: '"Orbitron", sans-serif' }}>
+                             Identifying vulnerabilities in neural networks. Protocol enforcement and ICE development for high-security data fortresses.
+                         </p>
+                     </div>
+
+                 </div>
+             </div>
         </section>
 
 
