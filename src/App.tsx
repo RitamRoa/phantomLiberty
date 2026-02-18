@@ -322,13 +322,13 @@ const App: React.FC = () => {
         {/* We use 'fixed' for the hero content so it stays in place while 'Experience' scrolls over it */}
         <div className="relative z-[10] h-[150vh] pointer-events-none">
              {/* Fixed content container */}
-             <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-end pb-32 md:justify-center md:pb-0">
+             <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-start">
                  {/* Only allow pointer events on the content itself */}
-                 <section className="relative flex flex-col justify-center px-8 md:px-32 pointer-events-auto h-full max-h-screen overflow-hidden">
+                 <section className="relative flex flex-col px-8 md:px-32 pointer-events-auto w-full overflow-y-auto" style={{ paddingTop: '11rem' }}>
               {/* Background Glow */}
               <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#FF2A55]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
               
-              <div className="relative max-w-7xl w-full pt-32 md:pt-0">
+              <div className="relative max-w-7xl w-full">
                 <div className="max-w-4xl space-y-8 md:space-y-12">
                   <div className="space-y-6">
                     
