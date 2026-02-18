@@ -301,28 +301,26 @@ const App: React.FC = () => {
            </div>
         </div>
         
-        <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-[65]"> 
-            <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
-                {isAboutPinned && (
-                  <div className="w-[600px] h-[600px] pointer-events-auto hover:cursor-grab active:cursor-grabbing">
-                      <AsciiSphere color="#FF2A55" size={600} />
-                  </div>
-                )}
-            </div>
-        </div>
-
-        {/* Hero Section - Content appears after About Me is pinned */}
-
-        {/* Music Player - Positioned above the sphere (right side), scrolls with content */}
-        <div className={`fixed top-[12vh] right-[10%] z-[80] transition-opacity duration-1000 delay-[1500ms] ${isAboutPinned ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
-           <MusicPlayer />
-        </div>
-
         {/* Hero Section - Content appears after About Me is pinned */}
         {/* We use 'fixed' for the hero content so it stays in place while 'Experience' scrolls over it */}
         <div className="relative z-[10] h-[150vh] pointer-events-none">
              {/* Fixed content container */}
              <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-start">
+
+                 {/* ASCII Sphere - right side, part of About Me layer so it gets covered by Experiences */}
+                 <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
+                     {isAboutPinned && (
+                       <div className="w-[600px] h-[600px] pointer-events-auto hover:cursor-grab active:cursor-grabbing">
+                           <AsciiSphere color="#FF2A55" size={600} />
+                       </div>
+                     )}
+                 </div>
+
+                 {/* Music Player */}
+                 <div className={`absolute top-[12vh] right-[10%] transition-opacity duration-1000 delay-[1500ms] ${isAboutPinned ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
+                    <MusicPlayer />
+                 </div>
+
                  {/* Only allow pointer events on the content itself */}
                  <section className="relative flex flex-col px-8 md:px-32 pointer-events-auto w-full overflow-y-auto" style={{ paddingTop: '11rem' }}>
               {/* Background Glow */}
