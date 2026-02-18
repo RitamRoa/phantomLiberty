@@ -277,42 +277,32 @@ const App: React.FC = () => {
         
         {/* Animated "About Me" Heading - Starts centered, then moves using transform for smoothness */}
         <div 
-          className={`fixed transition-transform duration-[1200ms] cubic-bezier(0.16, 1, 0.3, 1) z-0 pointer-events-none 
+          className={`fixed z-0 pointer-events-none 
             ${isVideoDone ? 'opacity-100' : 'opacity-0'}
-            ${isAboutPinned 
-              ? 'translate-x-[3rem] translate-y-[4rem] scale-[0.6] origin-top-left' 
-              : 'translate-x-1/2 translate-y-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 origin-center text-center z-[70]'
-            }`}
-          style={{ willChange: 'transform', top: 0, left: 0 }} 
+            ${isAboutPinned ? '' : 'z-[70]'}`}
+          style={{ 
+            willChange: 'transform, top, left',
+            transition: 'top 1200ms cubic-bezier(0.16, 1, 0.3, 1), left 1200ms cubic-bezier(0.16, 1, 0.3, 1), transform 1200ms cubic-bezier(0.16, 1, 0.3, 1)',
+            top: isAboutPinned ? '4rem' : '50%', 
+            left: isAboutPinned ? '8rem' : '50%',
+            transform: isAboutPinned ? 'none' : 'translate(-50%, -50%) scale(1.5)'
+          }} 
         >
-           {/* Center Logic: top-0 left-0 fixed container. 
-               Initial: translate(50vw, 50vh) - translate(50%, 50%) is center.
-               Pinned: translate(4rem, 5rem). 
-           */}
-           <div 
-             className={`transition-all duration-[1200ms] delay-0 
-             ${isAboutPinned ? 'translate-x-0 translate-y-0' : 'translate-x-[50vw] translate-y-[50vh] -translate-x-1/2 -translate-y-1/2'}`}
-           >
-              <div className="-skew-x-[15deg]">
-                <h2 className="text-7xl md:text-9xl whitespace-nowrap uppercase tracking-tighter italic relative"
-                    style={{ 
-                      fontFamily: 'Cyberpunk, cursive',
-                      color: '#FF2A55',
-                      textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
-                    }}>
-                  About Me
-                  {/* Animated Highlight underline like in the pic */}
-                  <div className={`absolute -bottom-2 left-0 h-1 bg-[#FF2A55] transition-all duration-1000 delay-[1000ms] ${isAboutPinned ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
-                </h2>
-              </div>
-          </div>
+           <div className="-skew-x-[15deg]">
+              <h2 className="text-6xl md:text-8xl whitespace-nowrap uppercase tracking-tighter italic relative"
+                  style={{ 
+                    fontFamily: 'Cyberpunk, cursive',
+                    color: '#FF2A55',
+                    textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
+                  }}>
+                About Me
+                <div className={`absolute -bottom-2 left-0 h-1 bg-[#FF2A55] transition-all duration-1000 delay-[1000ms] ${isAboutPinned ? 'w-full opacity-100' : 'w-0 opacity-0'}`} />
+              </h2>
+           </div>
         </div>
         
-        {/* Helper layout container to find "empty space" on the right - Viewport Relative */}
         <div className="fixed top-0 left-0 w-full h-screen pointer-events-none overflow-hidden z-[65]"> 
-            {/* Sphere Positioned to the right of the viewport */}
             <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
-                {/* Only render when visible to save resources */}
                 {isAboutPinned && (
                   <div className="w-[600px] h-[600px] pointer-events-auto hover:cursor-grab active:cursor-grabbing">
                       <AsciiSphere color="#FF2A55" size={600} />
@@ -414,13 +404,14 @@ const App: React.FC = () => {
         </div>
 
         {/* Experiences Section - overlaps previous section */}
-        <section className="relative w-full min-h-screen z-20 pt-32 pb-64 px-16 md:px-32 bg-black">
+        <section className="relative w-full min-h-screen z-20 pt-32 pb-64 bg-black">
              {/* Decorative Top Gradient to smooth the overlap */}
              <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-transparent to-black -mt-64 pointer-events-none" />
              
-             <div className="relative max-w-7xl w-full mx-auto">
+             <div className="relative w-full" style={{ paddingLeft: '8rem', paddingRight: '4rem' }}>
                  {/* Section Header */}
                  <div className="mb-20">
+                    <div className="-skew-x-[15deg] inline-block">
                     <h2 className="text-6xl md:text-8xl whitespace-nowrap uppercase tracking-tighter italic relative inline-block z-30"
                         style={{ 
                             fontFamily: 'Cyberpunk, cursive',
@@ -430,6 +421,7 @@ const App: React.FC = () => {
                         Experiences
                         <div className="absolute -bottom-2 left-0 w-full h-1 bg-[#FF2A55] opacity-50" />
                     </h2>
+                    </div>
                     <div className="mt-4 flex items-center space-x-2">
                         <div className="w-2 h-2 bg-[#FF2A55] animate-pulse" />
                         <span className="text-xs text-[#FF2A55]/60 font-mono tracking-[0.3em] uppercase">Career_Logs // Decryped</span>
