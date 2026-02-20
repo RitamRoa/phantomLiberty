@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Player } from '@remotion/player';
 import { BaselineAnimation } from './BaselineAnimation';
 import { AsciiSphere } from './AsciiSphere';
@@ -202,60 +202,6 @@ const App: React.FC = () => {
   const [isVideoDone, setIsVideoDone] = useState(false);
   const [isAboutPinned, setIsAboutPinned] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
-  const [showStatic, setShowStatic] = useState(false);
-  const staticCanvasRef = useRef<HTMLCanvasElement>(null);
-  const staticAnimRef = useRef<number>(undefined);
-  const staticTimeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
-  const lastScrollY = useRef(0);
-
-  const drawStatic = useCallback((canvas: HTMLCanvasElement) => {
-    const ctx = canvas.getContext('2d');
-    if (!ctx) return;
-    const w = canvas.width;
-    const h = canvas.height;
-    const imageData = ctx.createImageData(w, h);
-    const data = imageData.data;
-    for (let i = 0; i < data.length; i += 4) {
-      const val = Math.random() * 255;
-      data[i] = val;
-      data[i + 1] = val * 0.1; // tint red-ish
-      data[i + 2] = val * 0.1;
-      data[i + 3] = Math.random() * 60; // very subtle
-    }
-    ctx.putImageData(imageData, 0, 0);
-  }, []);
-
-  useEffect(() => {
-    const canvas = staticCanvasRef.current;
-    if (!canvas || !showStatic) {
-      if (staticAnimRef.current) cancelAnimationFrame(staticAnimRef.current);
-      return;
-    }
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-    const loop = () => {
-      drawStatic(canvas);
-      staticAnimRef.current = requestAnimationFrame(loop);
-    };
-    staticAnimRef.current = requestAnimationFrame(loop);
-    return () => {
-      if (staticAnimRef.current) cancelAnimationFrame(staticAnimRef.current);
-    };
-  }, [showStatic, drawStatic]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      if (currentY < lastScrollY.current) {
-        setShowStatic(true);
-        clearTimeout(staticTimeoutRef.current);
-        staticTimeoutRef.current = setTimeout(() => setShowStatic(false), 350);
-      }
-      lastScrollY.current = currentY;
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     // Automatically transition after intro duration (5s) as a fallback
@@ -287,16 +233,6 @@ const App: React.FC = () => {
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-x-hidden font-mono">
-      {/* Scroll-up Static Overlay */}
-      <canvas
-        ref={staticCanvasRef}
-        className="fixed inset-0 pointer-events-none z-[102]"
-        style={{
-          opacity: showStatic ? 1 : 0,
-          transition: 'opacity 0.15s ease-out',
-          mixBlendMode: 'screen',
-        }}
-      />
       {/* Global Scanline Overlay - Permanent for theme consistency */}
       <div className="fixed inset-0 pointer-events-none opacity-30 z-[100] bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,0,0,0.02),rgba(255,0,0,0.06))] bg-[length:100%_2px,3px_100%]" />
       {/* Cyber Background Lines - Adding more depth like in the pic */}
