@@ -76,19 +76,22 @@ export const AsciiSphere: React.FC<AsciiSphereProps> = ({ color = '#FF2A55', siz
     controls.enablePan = false;
     controls.autoRotate = true;
     controls.autoRotateSpeed = 2.0;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
 
     let animationId: number;
     const start = Date.now();
 
     const animate = () => {
       animationId = requestAnimationFrame(animate);
+      
+      controls.update();
+
       const timer = Date.now() - start;
 
       // Dynamic bounce
       sphere.position.y = (50 * (size / 500)) + Math.abs(Math.sin(timer * 0.002)) * (100 * (size / 500));
       
-      controls.update();
-
       if (Math.random() > 0.95) { // Increased glitch frequency slightly
         effect.domElement.style.opacity = '0.8';
         effect.domElement.style.transform = `translateX(${(Math.random() - 0.5) * 4}px)`;

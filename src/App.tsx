@@ -202,6 +202,7 @@ const App: React.FC = () => {
   const [isVideoDone, setIsVideoDone] = useState(false);
   const [isAboutPinned, setIsAboutPinned] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
+  const [showExperiences, setShowExperiences] = useState(false);
 
   useEffect(() => {
     // Automatically transition after intro duration (5s) as a fallback
@@ -402,13 +403,26 @@ const App: React.FC = () => {
         </div>
 
         {/* Experiences Section - overlaps previous section */}
-        <section className="relative w-full min-h-screen z-20 pt-32 pb-64 bg-black">
-             {/* Decorative Top Gradient to smooth the overlap */}
-             <div className="absolute top-0 left-0 w-full h-64 bg-gradient-to-b from-transparent to-black -mt-64 pointer-events-none" />
-             
-             <div className="relative w-full" style={{ paddingLeft: '8rem', paddingRight: '4rem' }}>
-                 {/* Section Header */}
-                 <div className="mb-20">
+        <section 
+          className={`fixed inset-0 w-full min-h-screen z-[40] bg-black transition-transform duration-1000 cubic-bezier(0.16, 1, 0.3, 1) ${
+            showExperiences ? 'translate-x-0' : 'translate-x-full'
+          }`}
+        >
+             <div className="h-full overflow-y-auto pt-32 pb-64">
+                <button 
+                    onClick={() => setShowExperiences(false)}
+                    className="absolute top-12 left-8 md:left-32 z-[50] text-[#FF2A55] flex items-center space-x-2 font-bold uppercase tracking-[0.2em] text-sm hover:translate-x-[-4px] transition-transform group"
+                    style={{ fontFamily: '"Orbitron", sans-serif' }}
+                >
+                    <svg className="w-6 h-6 rotate-180 group-hover:drop-shadow-[0_0_8px_#FF2A55]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                    <span>Go Back</span>
+                </button>
+              </div>
+                <div className="relative w-full" style={{ paddingLeft: '8rem', paddingRight: '4rem' }}>
+                    {/* Section Header */}
+                    <div className="mb-20">
                     <div className="-skew-x-[15deg] inline-block">
                     <h2 className="text-6xl md:text-8xl whitespace-nowrap uppercase tracking-tighter italic relative inline-block z-30"
                         style={{ 
@@ -464,9 +478,24 @@ const App: React.FC = () => {
              </div>
         </section>
 
+        {/* Navigation Arrow Button (Bottom Right) */}
+        <button 
+          onClick={() => setShowExperiences(true)}
+          className={`fixed bottom-12 right-12 z-[50] flex flex-col items-center space-y-2 group transition-all duration-1000 ${
+            showDescription && !showExperiences ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
+          }`}
+        >
+          <span className="text-[10px] text-[#FF2A55] font-mono tracking-[0.3em] uppercase opacity-60 group-hover:opacity-100 transition-opacity">Show_Experiences</span>
+          <div className="w-16 h-16 border border-[#FF2A55]/30 flex items-center justify-center group-hover:border-[#FF2A55] group-hover:shadow-[0_0_20px_rgba(255,42,85,0.4)] transition-all relative">
+             <div className="absolute inset-0 bg-[#FF2A55] opacity-0 group-hover:opacity-10 transition-opacity" />
+             <svg className="w-8 h-8 text-[#FF2A55]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+             </svg>
+          </div>
+        </button>
 
         {/* Scroll Indicator */}
-        <div className={`fixed bottom-12 left-1/2 -translate-x-1/2 transition-opacity duration-1000 ${showDescription ? 'opacity-40' : 'opacity-0'}`}>
+        <div className={`fixed bottom-12 left-1/2 -translate-x-1/2 transition-opacity duration-1000 ${showDescription && !showExperiences ? 'opacity-40' : 'opacity-0'}`}>
           <div className="w-[1px] h-20 bg-gradient-to-bottom from-[#FF2A55] to-transparent animate-pulse" />
         </div>
       </main>
