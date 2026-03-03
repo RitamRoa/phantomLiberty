@@ -10,28 +10,22 @@ const MusicPlayer: React.FC = () => {
 
   const togglePlay = () => {
     if (audioRef.current) {
-        // Try to unlock audio context if needed
         const audio = audioRef.current;
         
       if (isPlaying) {
         audio.pause();
+        setIsPlaying(false);
       } else {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-             playPromise.catch(error => {
-                console.error("Audio play failed", error);
-                setHasError(true);
-                
-                // Fallback attempt: sometimes recreating the source or reloading helps
-                if (error.name === 'NotAllowedError') {
-                    // User interaction requirement usuallyMet by the click..
-                } else if (error.name === "NotSupportedError") {
-                    console.error("Audio format not supported or file missing");
-                }
-             });
-        }
+        audio.play()
+          .then(() => {
+            setIsPlaying(true);
+            setHasError(false);
+          })
+          .catch(error => {
+            console.error("Audio play failed", error);
+            setHasError(true);
+          });
       }
-      setIsPlaying(!isPlaying);
     }
   };
 

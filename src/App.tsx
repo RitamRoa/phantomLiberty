@@ -309,7 +309,7 @@ const App: React.FC = () => {
              <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-start">
 
                  {/* ASCII Sphere - right side, part of About Me layer so it gets covered by Experiences */}
-                 <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 pointer-events-none transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
+                 <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 z-[20] pointer-events-none transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
                      {isAboutPinned && (
                        <div className="w-[600px] h-[600px] pointer-events-auto hover:cursor-grab active:cursor-grabbing">
                            <AsciiSphere color="#FF2A55" size={600} />
