@@ -307,7 +307,7 @@ const App: React.FC = () => {
         <div className="relative z-[10] h-[150vh] pointer-events-none">
              {/* Fixed Point Cloud on Right */}
              <div className={`fixed top-24 right-[5%] lg:right-[8%] xl:right-[10%] z-[15] pointer-events-auto transition-all duration-1000 delay-[900ms] ${showDescription ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
-               <div className="w-[300px] md:w-[360px] lg:w-[400px] xl:w-[440px]">
+               <div className="w-[340px] md:w-[410px] lg:w-[460px] xl:w-[520px]">
                  <div className="flex items-center justify-between mb-2 px-1">
                    <div className="flex items-center space-x-2">
                      <div className="w-2 h-2 bg-[#ff0033] rounded-full animate-pulse" />
@@ -315,7 +315,7 @@ const App: React.FC = () => {
                    </div>
                    <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
                  </div>
-                 <RitamPointCloud className="w-full h-[400px] md:h-[480px] lg:h-[540px] xl:h-[600px]" />
+                 <RitamPointCloud className="w-full h-[420px] md:h-[520px] lg:h-[600px] xl:h-[680px]" />
                </div>
              </div>
 

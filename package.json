@@ -7,7 +7,8 @@
   "scripts": {
     "dev": "vite",
     "start": "remotion preview src/index.ts",
-    "build": "remotion render src/index.ts BaselineTest out/video.mp4",
+    "build": "vite build",
+    "render-video": "remotion render src/index.ts BaselineTest out/video.mp4",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

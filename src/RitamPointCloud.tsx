@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as THREE from 'three';
 import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 type RitamPointCloudProps = {
   className?: string;
@@ -24,6 +25,14 @@ export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = ''
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableZoom = false;
+    controls.enablePan = false;
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.autoRotate = true;
+    controls.autoRotateSpeed = 1.6;
 
     const ambient = new THREE.AmbientLight(0xffffff, 0.7);
     const dir = new THREE.DirectionalLight(0xff2a55, 1.2);
@@ -117,10 +126,7 @@ export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = ''
     let frameId = 0;
     const animate = () => {
       frameId = requestAnimationFrame(animate);
-      root.rotation.y += 0.0022;
-      if (cloud) {
-        cloud.rotation.x = -0.02;
-      }
+      controls.update();
       renderer.render(scene, camera);
     };
     animate();
@@ -128,6 +134,7 @@ export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = ''
     return () => {
       cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
+      controls.dispose();
       if (cloud) {
         cloud.geometry.dispose();
         const material = cloud.material as THREE.Material;
