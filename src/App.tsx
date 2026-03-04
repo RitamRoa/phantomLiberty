@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { Player } from '@remotion/player';
 import { BaselineAnimation } from './BaselineAnimation';
 import { AsciiSphere } from './AsciiSphere';
-import MusicPlayer from './MusicPlayer';
 
 const GitHubContributionGrid = () => {
   const [contributionData, setContributionData] = useState<{ date: string; count: number; level: number }[]>([]);
@@ -308,20 +307,6 @@ const App: React.FC = () => {
              {/* Fixed content container */}
              <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-start">
 
-                 {/* ASCII Sphere - right side, part of About Me layer so it gets covered by Experiences */}
-                 <div className={`absolute right-[5%] top-1/2 -translate-y-1/2 z-[20] pointer-events-none transition-all duration-1000 delay-[1200ms] ${isAboutPinned ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-32'}`}>
-                     {isAboutPinned && (
-                       <div className="w-[600px] h-[600px] pointer-events-auto hover:cursor-grab active:cursor-grabbing">
-                           <AsciiSphere color="#FF2A55" size={600} />
-                       </div>
-                     )}
-                 </div>
-
-                 {/* Music Player */}
-                 <div className={`absolute top-[12vh] right-[10%] transition-opacity duration-1000 delay-[1500ms] ${isAboutPinned ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}>
-                    <MusicPlayer />
-                 </div>
-
                  {/* Only allow pointer events on the content itself */}
                  <section className="relative flex flex-col px-8 md:px-32 pointer-events-auto w-full overflow-y-auto" style={{ paddingTop: '11rem' }}>
               {/* Background Glow */}
@@ -408,19 +393,24 @@ const App: React.FC = () => {
             showExperiences ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-             <div className="h-full overflow-y-auto pt-32 pb-64">
-                <button 
-                    onClick={() => setShowExperiences(false)}
-                    className="absolute top-12 left-8 md:left-32 z-[50] text-[#FF2A55] flex items-center space-x-2 font-bold uppercase tracking-[0.2em] text-sm hover:translate-x-[-4px] transition-transform group"
-                    style={{ fontFamily: '"Orbitron", sans-serif' }}
-                >
-                    <svg className="w-6 h-6 rotate-180 group-hover:drop-shadow-[0_0_8px_#FF2A55]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                    <span>Go Back</span>
-                </button>
-              </div>
-                <div className="relative w-full" style={{ paddingLeft: '8rem', paddingRight: '4rem' }}>
+          <div className="h-full overflow-y-auto pt-32 pb-64">
+            <button 
+              onClick={() => setShowExperiences(false)}
+              className="absolute top-12 left-8 md:left-32 z-[50] text-[#FF2A55] flex items-center space-x-2 font-bold uppercase tracking-[0.2em] text-sm hover:translate-x-[-4px] transition-transform group"
+              style={{ fontFamily: '"Orbitron", sans-serif' }}
+            >
+              <svg className="w-6 h-6 rotate-180 group-hover:drop-shadow-[0_0_8px_#FF2A55]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+              <span>Go Back</span>
+            </button>
+
+            <div className="relative w-full" style={{ paddingLeft: '8rem', paddingRight: '4rem' }}>
+                    <div className="absolute right-[4rem] top-0 z-[45] pointer-events-auto hidden xl:block">
+                      <div className="w-[460px] h-[460px] hover:cursor-grab active:cursor-grabbing">
+                        <AsciiSphere color="#FF2A55" size={460} />
+                      </div>
+                    </div>
                     {/* Section Header */}
                     <div className="mb-20">
                     <div className="-skew-x-[15deg] inline-block">
@@ -475,7 +465,8 @@ const App: React.FC = () => {
                      </div>
 
                  </div>
-             </div>
+            </div>
+          </div>
         </section>
 
         {/* Navigation Arrow Button (Bottom Right) */}
