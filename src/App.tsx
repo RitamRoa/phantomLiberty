@@ -53,7 +53,7 @@ const GitHubContributionGrid = () => {
   ];
 
   return (
-    <div className="bg-[#0a0a0a]/80 border border-[#ff0033]/20 rounded-2xl p-6 backdrop-blur-sm self-start group hover:border-[#ff0033]/40 transition-all duration-500 overflow-hidden relative w-full max-w-2xl">
+    <div className="bg-[#0a0a0a]/80 border border-[#ff0033]/20 rounded-2xl p-6 backdrop-blur-sm self-start group hover:border-[#ff0033]/40 transition-all duration-500 overflow-hidden relative w-full">
       {/* Decorative Corner Glitch */}
       <div className="absolute top-0 right-0 w-8 h-8 opacity-20 pointer-events-none">
         <div className="absolute top-2 right-2 w-4 h-[1px] bg-[#ff0033]" />
@@ -305,6 +305,20 @@ const App: React.FC = () => {
         {/* Hero Section - Content appears after About Me is pinned */}
         {/* We use 'fixed' for the hero content so it stays in place while 'Experience' scrolls over it */}
         <div className="relative z-[10] h-[150vh] pointer-events-none">
+             {/* Fixed Point Cloud on Right */}
+             <div className={`fixed top-24 right-[5%] lg:right-[8%] xl:right-[10%] z-[15] pointer-events-auto transition-all duration-1000 delay-[900ms] ${showDescription ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
+               <div className="w-[300px] md:w-[360px] lg:w-[400px] xl:w-[440px]">
+                 <div className="flex items-center justify-between mb-2 px-1">
+                   <div className="flex items-center space-x-2">
+                     <div className="w-2 h-2 bg-[#ff0033] rounded-full animate-pulse" />
+                     <h3 className="text-[10px] font-bold tracking-[0.2em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>Point_Cloud</h3>
+                   </div>
+                   <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
+                 </div>
+                 <RitamPointCloud className="w-full h-[400px] md:h-[480px] lg:h-[540px] xl:h-[600px]" />
+               </div>
+             </div>
+
              {/* Fixed content container */}
              <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-start">
 
@@ -314,7 +328,7 @@ const App: React.FC = () => {
               <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#FF2A55]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
               
               <div className="relative w-full">
-                <div className="max-w-2xl">
+                <div className="max-w-3xl xl:max-w-4xl">
                 <div className="space-y-8 md:space-y-12 min-w-0">
                   <div className="space-y-6">
                     
@@ -379,7 +393,7 @@ const App: React.FC = () => {
                   </div>
 
                   {/* Bento Section - Widgets */}
-                  <div className={`mt-24 grid grid-cols-1 lg:grid-cols-2 gap-8 transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                  <div className={`mt-24 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[720px] transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
                       <GitHubContributionGrid />
                       <TechStack />
                   </div>
