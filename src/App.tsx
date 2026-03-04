@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Player } from '@remotion/player';
 import { BaselineAnimation } from './BaselineAnimation';
 import { AsciiSphere } from './AsciiSphere';
+import { RitamPointCloud } from './RitamPointCloud';
 
 const GitHubContributionGrid = () => {
   const [contributionData, setContributionData] = useState<{ date: string; count: number; level: number }[]>([]);
@@ -312,8 +313,9 @@ const App: React.FC = () => {
               {/* Background Glow */}
               <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#FF2A55]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
               
-              <div className="relative max-w-7xl w-full">
-                <div className="max-w-4xl space-y-8 md:space-y-12">
+              <div className="relative w-full">
+                <div className="max-w-2xl">
+                <div className="space-y-8 md:space-y-12 min-w-0">
                   <div className="space-y-6">
                     
                     <div className={`space-y-4 transition-all duration-1000 delay-[500ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
@@ -381,6 +383,7 @@ const App: React.FC = () => {
                       <GitHubContributionGrid />
                       <TechStack />
                   </div>
+                </div>
                 </div>
               </div>
             </section>
