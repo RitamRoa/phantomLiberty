@@ -284,13 +284,13 @@ const App: React.FC = () => {
           style={{ 
             willChange: 'transform, top, left',
             transition: 'top 1200ms cubic-bezier(0.16, 1, 0.3, 1), left 1200ms cubic-bezier(0.16, 1, 0.3, 1), transform 1200ms cubic-bezier(0.16, 1, 0.3, 1)',
-            top: isAboutPinned ? '4rem' : '50%', 
-            left: isAboutPinned ? '8rem' : '50%',
+            top: isAboutPinned ? 'clamp(2.5rem, 6vw, 4rem)' : '50%', 
+            left: isAboutPinned ? 'clamp(1.25rem, 6vw, 8rem)' : '50%',
             transform: isAboutPinned ? 'none' : 'translate(-50%, -50%) scale(1.5)'
           }} 
         >
            <div className="-skew-x-[15deg]">
-              <h2 className="text-6xl md:text-8xl whitespace-nowrap uppercase tracking-tighter italic relative"
+              <h2 className="text-5xl sm:text-6xl md:text-8xl whitespace-nowrap uppercase tracking-tighter italic relative"
                   style={{ 
                     fontFamily: 'Cyberpunk, cursive',
                     color: '#FF2A55',
@@ -306,7 +306,7 @@ const App: React.FC = () => {
         {/* We use 'fixed' for the hero content so it stays in place while 'Experience' scrolls over it */}
         <div className="relative z-[10] h-[150vh] pointer-events-none">
              {/* Fixed Point Cloud on Right */}
-             <div className={`fixed top-24 right-[5%] lg:right-[8%] xl:right-[10%] z-[15] pointer-events-auto transition-all duration-1000 delay-[900ms] ${showDescription ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
+             <div className={`hidden lg:block fixed top-24 right-[5%] lg:right-[8%] xl:right-[10%] z-[15] pointer-events-auto transition-all duration-1000 delay-[900ms] ${showDescription ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
                <div className="w-[340px] md:w-[410px] lg:w-[460px] xl:w-[520px]">
                  <div className="flex items-center justify-between mb-2 px-1">
                    <div className="flex items-center space-x-2">
@@ -323,7 +323,7 @@ const App: React.FC = () => {
              <div className="fixed top-0 left-0 w-full h-full flex flex-col justify-start">
 
                  {/* Only allow pointer events on the content itself */}
-                 <section className="relative flex flex-col px-8 md:px-32 pointer-events-auto w-full overflow-y-auto" style={{ paddingTop: '11rem' }}>
+               <section className="relative flex flex-col px-5 sm:px-8 md:px-32 pt-36 md:pt-44 pointer-events-auto w-full overflow-y-auto">
               {/* Background Glow */}
               <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[80vw] h-[80vh] bg-radial-gradient from-[#FF2A55]/5 to-transparent opacity-30 pointer-events-none -translate-x-1/4" />
               
@@ -339,6 +339,17 @@ const App: React.FC = () => {
                       <p className="text-[#FF2A55]/60 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
                         Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                       </p>
+                    </div>
+
+                    <div className={`lg:hidden transition-all duration-1000 delay-[650ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
+                      <div className="flex items-center justify-between mb-2 px-1">
+                        <div className="flex items-center space-x-2">
+                          <div className="w-2 h-2 bg-[#ff0033] rounded-full animate-pulse" />
+                          <h3 className="text-[10px] font-bold tracking-[0.2em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>Point_Cloud</h3>
+                        </div>
+                        <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
+                      </div>
+                      <RitamPointCloud className="w-full h-[300px] sm:h-[360px]" />
                     </div>
 
                     {/* Social Links */}
