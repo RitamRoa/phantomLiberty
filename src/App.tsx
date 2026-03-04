@@ -393,7 +393,7 @@ const App: React.FC = () => {
                   </div>
 
                   {/* Bento Section - Widgets */}
-                  <div className={`mt-24 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[720px] transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                    <div className={`mt-24 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[920px] xl:max-w-[980px] transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
                       <GitHubContributionGrid />
                       <TechStack />
                   </div>
