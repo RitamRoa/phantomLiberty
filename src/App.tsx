@@ -434,7 +434,7 @@ const App: React.FC = () => {
             </button>
 
             <div className="relative w-full" style={{ paddingLeft: '8rem', paddingRight: '4rem' }}>
-                    <div className="absolute right-[4rem] top-0 z-[45] pointer-events-auto hidden xl:block">
+                    <div className="absolute right-[clamp(2rem,6vw,5rem)] top-1/2 -translate-y-1/2 z-[45] pointer-events-auto hidden xl:block">
                       <div className="w-[460px] h-[460px] hover:cursor-grab active:cursor-grabbing">
                         <AsciiSphere color="#FF2A55" size={460} />
                       </div>
