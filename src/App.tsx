@@ -202,15 +202,9 @@ const MinimalAudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
-  const togglePlayback = async () => {
+  const playAudio = async () => {
     const audio = audioRef.current;
     if (!audio) return;
-
-    if (isPlaying) {
-      audio.pause();
-      setIsPlaying(false);
-      return;
-    }
 
     try {
       await audio.play();
@@ -220,15 +214,31 @@ const MinimalAudioPlayer = () => {
     }
   };
 
+  const pauseAudio = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    audio.pause();
+    setIsPlaying(false);
+  };
+
   return (
-    <div className="mt-4 flex items-center justify-center">
+    <div className="mt-4 flex items-center justify-center gap-4 text-[10px] font-mono tracking-[0.25em] uppercase text-[#FF2A55]">
+      <span className="text-[#FF2A55]/70">My fav song "phantom liberty"</span>
       <button
-        onClick={togglePlayback}
-        className="border border-[#FF2A55]/40 px-4 py-1.5 text-[10px] font-mono tracking-[0.25em] uppercase text-[#FF2A55] hover:border-[#FF2A55] hover:bg-[#FF2A55]/10 transition-all duration-200"
-        aria-label={isPlaying ? 'Pause music' : 'Play music'}
+        onClick={playAudio}
+        className="text-[#FF2A55] hover:text-white transition-colors duration-200"
+        aria-label="Play music"
       >
-        {isPlaying ? 'Pause my fav song "phantom liberty"' : 'Play my fav song "phantom liberty"'}
+        Play
       </button>
+      <button
+        onClick={pauseAudio}
+        className="text-[#FF2A55] hover:text-white transition-colors duration-200"
+        aria-label="Pause music"
+      >
+        Pause
+      </button>
+      <span className={`text-[#FF2A55]/50 transition-opacity duration-200 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}>Now playing</span>
       <audio ref={audioRef} src="/audio/song.mp3" preload="none" onEnded={() => setIsPlaying(false)} />
     </div>
   );
