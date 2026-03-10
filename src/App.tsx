@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Player } from '@remotion/player';
 import { BaselineAnimation } from './BaselineAnimation';
 import { AsciiSphere } from './AsciiSphere';
@@ -198,6 +198,42 @@ const TechStack = () => {
   );
 };
 
+const MinimalAudioPlayer = () => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  const togglePlayback = async () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (isPlaying) {
+      audio.pause();
+      setIsPlaying(false);
+      return;
+    }
+
+    try {
+      await audio.play();
+      setIsPlaying(true);
+    } catch (error) {
+      console.error('Audio playback failed', error);
+    }
+  };
+
+  return (
+    <div className="mt-4 flex items-center justify-center">
+      <button
+        onClick={togglePlayback}
+        className="border border-[#FF2A55]/40 px-4 py-1.5 text-[10px] font-mono tracking-[0.25em] uppercase text-[#FF2A55] hover:border-[#FF2A55] hover:bg-[#FF2A55]/10 transition-all duration-200"
+        aria-label={isPlaying ? 'Pause music' : 'Play music'}
+      >
+        {isPlaying ? 'Pause my fav song "phantom liberty"' : 'Play my fav song "phantom liberty"'}
+      </button>
+      <audio ref={audioRef} src="/audio/song.mp3" preload="none" onEnded={() => setIsPlaying(false)} />
+    </div>
+  );
+};
+
 const App: React.FC = () => {
   const [isVideoDone, setIsVideoDone] = useState(false);
   const [isAboutPinned, setIsAboutPinned] = useState(false);
@@ -316,6 +352,7 @@ const App: React.FC = () => {
                    <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
                  </div>
                  <RitamPointCloud className="w-full h-[420px] md:h-[520px] lg:h-[600px] xl:h-[680px]" />
+                 <MinimalAudioPlayer />
                </div>
              </div>
 
@@ -350,6 +387,7 @@ const App: React.FC = () => {
                         <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
                       </div>
                       <RitamPointCloud className="w-full h-[300px] sm:h-[360px]" />
+                      <MinimalAudioPlayer />
                     </div>
 
                     {/* Social Links */}
