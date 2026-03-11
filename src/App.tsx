@@ -548,27 +548,25 @@ const App: React.FC = () => {
         {/* Navigation Arrow Button (Bottom Right) */}
         <button 
           onClick={() => setShowExperiences(true)}
-          className={`fixed bottom-12 right-12 z-[50] flex flex-col items-center space-y-2 group transition-all duration-1000 ${
+          className={`fixed bottom-12 right-12 z-[50] flex flex-col items-end space-y-3 group transition-all duration-1000 ${
             showDescription && !showExperiences ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
           }`}
         >
           <span className="text-[10px] text-[#FF2A55] font-mono tracking-[0.3em] uppercase opacity-60 group-hover:opacity-100 transition-opacity">Show_Experiences</span>
-          <div className="w-16 h-16 border border-[#FF2A55]/30 flex items-center justify-center group-hover:border-[#FF2A55] group-hover:shadow-[0_0_20px_rgba(255,42,85,0.4)] transition-all relative">
-             <div className="absolute inset-0 bg-[#FF2A55] opacity-0 group-hover:opacity-10 transition-opacity" />
-             <svg className="w-8 h-8 text-[#FF2A55]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-             </svg>
-          </div>
-          {/* Shooting Arrow Animation */}
-          <div className="absolute -left-32 top-1/2 -translate-y-1/2 pointer-events-none">
-            <div className="relative shooting-arrow flex items-center">
-              {/* Minimalistic Arrow */}
-              <svg className="w-5 h-5 text-[#FF2A55]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-              {/* Trail Line with Static Effect */}
-              <div className="absolute top-1/2 right-full -translate-y-1/2 h-[2px] arrow-trail bg-gradient-to-l from-[#FF2A55]/90 via-[#FF2A55]/50 to-transparent shadow-[0_0_4px_rgba(255,42,85,0.5)]" />
-            </div>
+          <div className="relative flex items-center h-8">
+             {/* Continuous Animated Tail */}
+             <div className="w-[280px] h-[3px] arrow-flowing-tail" 
+                  style={{
+                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,42,85,0.3) 20%, rgba(255,42,85,0.9) 60%, rgba(255,42,85,1) 100%)',
+                    boxShadow: '0 0 8px rgba(255,42,85,0.4)'
+                  }}
+             />
+             {/* Arrow Head - seamlessly connected */}
+             <div className="relative -ml-[2px] flex items-center">
+               <svg className="w-8 h-8 text-[#FF2A55]" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
+               </svg>
+             </div>
           </div>
         </button>
 
