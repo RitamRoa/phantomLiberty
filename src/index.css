@@ -35,46 +35,63 @@ body {
   text-shadow: 0 0 15px rgba(255, 42, 85, 0.6), 0 0 30px rgba(255, 42, 85, 0.2);
 }
 
-@keyframes shootingStar {
+@keyframes shootingArrow {
   0% {
-    transform: translateX(-100px) translateY(20px) scale(0);
+    transform: translateX(-120px);
     opacity: 0;
   }
-  10% {
+  15% {
     opacity: 1;
-    transform: translateX(-80px) translateY(15px) scale(1);
   }
-  90% {
+  85% {
     opacity: 1;
-    transform: translateX(-10px) translateY(-5px) scale(1);
   }
   100% {
-    transform: translateX(0) translateY(0) scale(0.5);
+    transform: translateX(0);
     opacity: 0;
   }
 }
 
-@keyframes starTrail {
+@keyframes arrowTrail {
   0% {
     width: 0;
     opacity: 0;
   }
   20% {
-    opacity: 0.8;
+    opacity: 0.7;
   }
   80% {
-    opacity: 0.8;
+    opacity: 0.7;
   }
   100% {
-    width: 60px;
+    width: 80px;
     opacity: 0;
   }
 }
 
-.shooting-star {
-  animation: shootingStar 2s ease-in-out infinite;
+@keyframes trailStatic {
+  0%, 100% {
+    opacity: 0.7;
+    filter: blur(0px);
+  }
+  25% {
+    opacity: 0.5;
+    filter: blur(0.5px);
+  }
+  50% {
+    opacity: 0.8;
+    filter: blur(0px);
+  }
+  75% {
+    opacity: 0.6;
+    filter: blur(0.3px);
+  }
 }
 
-.star-trail {
-  animation: starTrail 2s ease-in-out infinite;
+.shooting-arrow {
+  animation: shootingArrow 2.5s linear infinite;
+}
+
+.arrow-trail {
+  animation: arrowTrail 2.5s linear infinite, trailStatic 0.15s infinite alternate;
 }

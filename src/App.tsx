@@ -559,13 +559,15 @@ const App: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
              </svg>
           </div>
-          {/* Shooting Star Animation */}
-          <div className="absolute -left-24 top-1/2 -translate-y-1/2 pointer-events-none">
-            <div className="relative shooting-star">
-              {/* Star Core */}
-              <div className="w-3 h-3 bg-[#FF2A55] rounded-full shadow-[0_0_15px_rgba(255,42,85,0.8),0_0_30px_rgba(255,42,85,0.4)]" />
-              {/* Trail */}
-              <div className="absolute top-1/2 right-full -translate-y-1/2 h-[2px] star-trail bg-gradient-to-l from-[#FF2A55] via-[#FF2A55]/50 to-transparent shadow-[0_0_10px_rgba(255,42,85,0.6)]" />
+          {/* Shooting Arrow Animation */}
+          <div className="absolute -left-32 top-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="relative shooting-arrow flex items-center">
+              {/* Minimalistic Arrow */}
+              <svg className="w-5 h-5 text-[#FF2A55]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+              {/* Trail Line with Static Effect */}
+              <div className="absolute top-1/2 right-full -translate-y-1/2 h-[2px] arrow-trail bg-gradient-to-l from-[#FF2A55]/90 via-[#FF2A55]/50 to-transparent shadow-[0_0_4px_rgba(255,42,85,0.5)]" />
             </div>
           </div>
         </button>
