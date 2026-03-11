@@ -552,7 +552,7 @@ const App: React.FC = () => {
             showDescription && !showExperiences ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
           }`}
         >
-          <span className="text-[10px] text-[#FF2A55] font-mono tracking-[0.3em] uppercase opacity-60 group-hover:opacity-100 transition-opacity">Show_Experiences</span>
+          <span className="text-[10px] text-[#FF2A55] font-mono tracking-[0.3em] uppercase opacity-60 group-hover:opacity-100 transition-opacity" style={{ animation: 'textFlicker 0.15s infinite' }}>Show_Experiences</span>
           <div className="relative flex items-center h-8">
              {/* Continuous Animated Tail */}
              <div className="w-[280px] h-[3px] arrow-flowing-tail" 
