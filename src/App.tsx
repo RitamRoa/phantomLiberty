@@ -559,6 +559,15 @@ const App: React.FC = () => {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
              </svg>
           </div>
+          {/* Shooting Star Animation */}
+          <div className="absolute -left-24 top-1/2 -translate-y-1/2 pointer-events-none">
+            <div className="relative shooting-star">
+              {/* Star Core */}
+              <div className="w-3 h-3 bg-[#FF2A55] rounded-full shadow-[0_0_15px_rgba(255,42,85,0.8),0_0_30px_rgba(255,42,85,0.4)]" />
+              {/* Trail */}
+              <div className="absolute top-1/2 right-full -translate-y-1/2 h-[2px] star-trail bg-gradient-to-l from-[#FF2A55] via-[#FF2A55]/50 to-transparent shadow-[0_0_10px_rgba(255,42,85,0.6)]" />
+            </div>
+          </div>
         </button>
 
         {/* Scroll Indicator */}
