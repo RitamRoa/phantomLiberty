@@ -552,18 +552,18 @@ const App: React.FC = () => {
             showDescription && !showExperiences ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
           }`}
         >
-          <span className="text-[10px] text-[#FF2A55] font-mono tracking-[0.3em] uppercase opacity-60 group-hover:opacity-100 transition-opacity" style={{ animation: 'textFlicker 0.15s infinite' }}>Show_Experiences</span>
-          <div className="relative flex items-center h-8">
+          <span className="text-[13px] text-[#FF2A55] font-mono tracking-[0.3em] uppercase opacity-80 group-hover:opacity-100 transition-opacity" style={{ animation: 'textFlicker 0.15s infinite' }}>Show_Experiences</span>
+          <div className="relative flex items-center h-10">
              {/* Continuous Animated Tail */}
-             <div className="w-[280px] h-[3px] arrow-flowing-tail" 
+             <div className="w-[320px] h-[4px] arrow-flowing-tail" 
                   style={{
                     background: 'linear-gradient(90deg, transparent 0%, rgba(255,42,85,0.3) 20%, rgba(255,42,85,0.9) 60%, rgba(255,42,85,1) 100%)',
-                    boxShadow: '0 0 8px rgba(255,42,85,0.4)'
+                    boxShadow: '0 0 12px rgba(255,42,85,0.6)'
                   }}
              />
              {/* Arrow Head - seamlessly connected */}
              <div className="relative -ml-[2px] flex items-center">
-               <svg className="w-8 h-8 text-[#FF2A55]" fill="currentColor" viewBox="0 0 24 24">
+               <svg className="w-11 h-11 text-[#FF2A55]" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
                </svg>
              </div>
