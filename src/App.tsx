@@ -198,7 +198,11 @@ const TechStack = () => {
   );
 };
 
-const MinimalAudioPlayer = () => {
+type MinimalAudioPlayerProps = {
+  className?: string;
+};
+
+const MinimalAudioPlayer: React.FC<MinimalAudioPlayerProps> = ({ className = '' }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -222,23 +226,44 @@ const MinimalAudioPlayer = () => {
   };
 
   return (
-    <div className="mt-4 flex items-center justify-center gap-4 text-[10px] font-mono tracking-[0.25em] uppercase text-[#FF2A55]">
-      <span className="text-[#FF2A55]/70">My fav song "phantom liberty"</span>
-      <button
-        onClick={playAudio}
-        className="text-[#FF2A55] hover:text-white transition-colors duration-200"
-        aria-label="Play music"
-      >
-        Play
-      </button>
-      <button
-        onClick={pauseAudio}
-        className="text-[#FF2A55] hover:text-white transition-colors duration-200"
-        aria-label="Pause music"
-      >
-        Pause
-      </button>
-      <span className={`text-[#FF2A55]/50 transition-opacity duration-200 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}>Now playing</span>
+    <div className={`mt-3 w-full rounded-md border border-[#FF2A55]/25 bg-[#050505]/80 px-3 py-2 backdrop-blur-sm ${className}`}>
+      <div className="flex items-center justify-between gap-3">
+        <div className="min-w-0">
+          <p className="text-[9px] font-mono uppercase tracking-[0.18em] text-[#FF2A55]/60">Now Playing</p>
+          <p className="truncate text-[11px] font-mono uppercase tracking-[0.14em] text-[#FF2A55]">Phantom Liberty</p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={playAudio}
+            className="h-7 w-7 border border-[#FF2A55]/40 text-[#FF2A55] hover:bg-[#FF2A55] hover:text-black transition-colors duration-200"
+            aria-label="Play music"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mx-auto h-3.5 w-3.5">
+              <path d="M8 5v14l11-7z" />
+            </svg>
+          </button>
+          <button
+            onClick={pauseAudio}
+            className="h-7 w-7 border border-[#FF2A55]/40 text-[#FF2A55] hover:bg-[#FF2A55] hover:text-black transition-colors duration-200"
+            aria-label="Pause music"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mx-auto h-3.5 w-3.5">
+              <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <div className="mt-2 flex items-center gap-2">
+        <div className={`h-1 flex-1 rounded-full bg-[#FF2A55]/15 ${isPlaying ? 'animate-pulse' : ''}`}>
+          <div className={`h-full rounded-full bg-[#FF2A55] transition-all duration-300 ${isPlaying ? 'w-2/3' : 'w-1/6'}`} />
+        </div>
+        <span className={`text-[9px] font-mono uppercase tracking-[0.12em] transition-opacity duration-200 ${isPlaying ? 'text-[#FF2A55] opacity-100' : 'text-[#FF2A55]/45 opacity-80'}`}>
+          {isPlaying ? 'Active' : 'Idle'}
+        </span>
+      </div>
+
       <audio ref={audioRef} src="/audio/song.mp3" preload="none" onEnded={() => setIsPlaying(false)} />
     </div>
   );
@@ -353,7 +378,7 @@ const App: React.FC = () => {
         <div className="relative z-[10] h-[150vh] pointer-events-none">
              {/* Fixed Point Cloud on Right */}
              <div className={`hidden lg:block fixed top-24 right-[5%] lg:right-[8%] xl:right-[10%] z-[15] pointer-events-auto transition-all duration-1000 delay-[900ms] ${showDescription ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-20'}`}>
-               <div className="w-[340px] md:w-[410px] lg:w-[460px] xl:w-[520px]">
+               <div className="w-[340px] md:w-[410px] lg:w-[460px] xl:w-[520px] flex flex-col items-center">
                  <div className="flex items-center justify-between mb-2 px-1">
                    <div className="flex items-center space-x-2">
                      <div className="w-2 h-2 bg-[#ff0033] rounded-full animate-pulse" />
@@ -362,7 +387,7 @@ const App: React.FC = () => {
                    <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
                  </div>
                  <RitamPointCloud className="w-full h-[420px] md:h-[520px] lg:h-[600px] xl:h-[680px]" />
-                 <MinimalAudioPlayer />
+                 <MinimalAudioPlayer className="max-w-[420px]" />
                </div>
              </div>
 
@@ -397,7 +422,7 @@ const App: React.FC = () => {
                         <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
                       </div>
                       <RitamPointCloud className="w-full h-[300px] sm:h-[360px]" />
-                      <MinimalAudioPlayer />
+                      <MinimalAudioPlayer className="max-w-[380px]" />
                     </div>
 
                     {/* Social Links */}
