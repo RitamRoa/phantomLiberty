@@ -205,12 +205,61 @@ type MinimalAudioPlayerProps = {
 const MinimalAudioPlayer: React.FC<MinimalAudioPlayerProps> = ({ className = '' }) => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  const syncProgress = () => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const nextDuration = Number.isFinite(audio.duration) ? audio.duration : 0;
+    const nextProgress = nextDuration > 0 ? Math.min(audio.currentTime / nextDuration, 1) : 0;
+    setDuration(nextDuration);
+    setProgress(nextProgress);
+  };
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleTimeUpdate = () => syncProgress();
+    const handleLoadedMetadata = () => syncProgress();
+    const handleDurationChange = () => syncProgress();
+    const handleEnded = () => {
+      setIsPlaying(false);
+      setProgress(1);
+    };
+
+    audio.addEventListener('play', handlePlay);
+    audio.addEventListener('pause', handlePause);
+    audio.addEventListener('timeupdate', handleTimeUpdate);
+    audio.addEventListener('loadedmetadata', handleLoadedMetadata);
+    audio.addEventListener('durationchange', handleDurationChange);
+    audio.addEventListener('ended', handleEnded);
+
+    syncProgress();
+
+    return () => {
+      audio.removeEventListener('play', handlePlay);
+      audio.removeEventListener('pause', handlePause);
+      audio.removeEventListener('timeupdate', handleTimeUpdate);
+      audio.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      audio.removeEventListener('durationchange', handleDurationChange);
+      audio.removeEventListener('ended', handleEnded);
+    };
+  }, []);
 
   const playAudio = async () => {
     const audio = audioRef.current;
     if (!audio) return;
 
     try {
+      if (duration > 0 && audio.currentTime >= duration) {
+        audio.currentTime = 0;
+        setProgress(0);
+      }
       await audio.play();
       setIsPlaying(true);
     } catch (error) {
@@ -257,14 +306,17 @@ const MinimalAudioPlayer: React.FC<MinimalAudioPlayerProps> = ({ className = '' 
 
       <div className="mt-2 flex items-center gap-2">
         <div className={`h-1 flex-1 rounded-full bg-[#FF2A55]/15 ${isPlaying ? 'animate-pulse' : ''}`}>
-          <div className={`h-full rounded-full bg-[#FF2A55] transition-all duration-300 ${isPlaying ? 'w-2/3' : 'w-1/6'}`} />
+          <div
+            className="h-full rounded-full bg-[#FF2A55] transition-[width] duration-150"
+            style={{ width: `${Math.max(progress * 100, 0)}%` }}
+          />
         </div>
         <span className={`text-[9px] font-mono uppercase tracking-[0.12em] transition-opacity duration-200 ${isPlaying ? 'text-[#FF2A55] opacity-100' : 'text-[#FF2A55]/45 opacity-80'}`}>
           {isPlaying ? 'Active' : 'Idle'}
         </span>
       </div>
 
-      <audio ref={audioRef} src="/audio/song.mp3" preload="none" onEnded={() => setIsPlaying(false)} />
+      <audio ref={audioRef} src="/audio/song.mp3" preload="metadata" />
     </div>
   );
 };
