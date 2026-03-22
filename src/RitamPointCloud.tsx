@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import * as THREE from 'three';
 import { PCDLoader } from 'three/examples/jsm/loaders/PCDLoader.js';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
@@ -9,6 +9,8 @@ type RitamPointCloudProps = {
 
 export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = '' }) => {
   const containerRef = useRef<HTMLDivElement | null>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     const container = containerRef.current;
@@ -147,5 +149,33 @@ export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = ''
     };
   }, []);
 
-  return <div ref={containerRef} className={className} />;
+  const handlePointerMove = (event: React.MouseEvent<HTMLDivElement>) => {
+    const container = containerRef.current;
+    if (!container) {
+      return;
+    }
+
+    const rect = container.getBoundingClientRect();
+    setCursorPos({
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+    });
+  };
+
+  return (
+    <div
+      ref={containerRef}
+      className={`${className} relative cursor-grab active:cursor-grabbing`}
+      onMouseEnter={() => setIsHovering(true)}
+      onMouseLeave={() => setIsHovering(false)}
+      onMouseMove={handlePointerMove}
+    >
+      {isHovering && (
+        <div
+          className="point-cloud-cursor-static pointer-events-none absolute z-20 h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full"
+          style={{ left: cursorPos.x, top: cursorPos.y }}
+        />
+      )}
+    </div>
+  );
 };
