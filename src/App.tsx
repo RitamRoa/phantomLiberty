@@ -436,7 +436,7 @@ const App: React.FC = () => {
                    <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
                  </div>
                  <RitamPointCloud className="w-full h-[420px] md:h-[520px] lg:h-[600px] xl:h-[680px]" />
-                 <MinimalAudioPlayer className="max-w-[420px]" />
+                 <MinimalAudioPlayer className="mt-8 md:mt-10 max-w-[420px]" />
                </div>
              </div>
 
@@ -471,7 +471,7 @@ const App: React.FC = () => {
                         <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
                       </div>
                       <RitamPointCloud className="w-full h-[300px] sm:h-[360px]" />
-                      <MinimalAudioPlayer className="max-w-[380px]" />
+                      <MinimalAudioPlayer className="mt-8 max-w-[380px]" />
                     </div>
 
                     {/* Social Links */}
