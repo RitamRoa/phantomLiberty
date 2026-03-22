@@ -120,10 +120,62 @@ body {
 
 .point-cloud-cursor-static {
   background-image:
-    radial-gradient(circle, rgba(255, 42, 85, 0.35) 0%, rgba(255, 42, 85, 0.12) 35%, rgba(255, 42, 85, 0.03) 58%, transparent 75%),
-    repeating-linear-gradient(0deg, rgba(255, 42, 85, 0.14) 0 1px, transparent 1px 2px),
-    repeating-linear-gradient(90deg, rgba(255, 42, 85, 0.07) 0 1px, transparent 1px 3px);
-  box-shadow: 0 0 10px rgba(255, 42, 85, 0.25), inset 0 0 6px rgba(255, 42, 85, 0.18);
+    radial-gradient(circle, rgba(255, 42, 85, 0.45) 0%, rgba(255, 42, 85, 0.16) 36%, rgba(255, 42, 85, 0.05) 62%, transparent 80%),
+    repeating-linear-gradient(0deg, rgba(255, 42, 85, 0.2) 0 1px, transparent 1px 2px),
+    repeating-linear-gradient(90deg, rgba(255, 42, 85, 0.11) 0 1px, transparent 1px 3px);
+  box-shadow: 0 0 14px rgba(255, 42, 85, 0.32), inset 0 0 8px rgba(255, 42, 85, 0.22);
   mix-blend-mode: screen;
   animation: pointCloudCursorStatic 120ms steps(2) infinite;
+}
+
+@keyframes pointCloudOverlayFlicker {
+  0% {
+    opacity: 0.045;
+    background-position: 0 0, 0 0;
+  }
+  45% {
+    opacity: 0.08;
+    background-position: 0 1px, 1px 0;
+  }
+  100% {
+    opacity: 0.05;
+    background-position: 0 0, -1px 0;
+  }
+}
+
+@keyframes pointCloudGlitchSweep {
+  0%, 90%, 100% {
+    opacity: 0;
+    transform: translateY(-130%);
+  }
+  92% {
+    opacity: 0.18;
+    transform: translateY(18%);
+  }
+  95% {
+    opacity: 0.1;
+    transform: translateY(58%);
+  }
+  98% {
+    opacity: 0;
+    transform: translateY(110%);
+  }
+}
+
+.point-cloud-static-overlay {
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 42, 85, 0.16) 0 1px, transparent 1px 3px),
+    repeating-linear-gradient(90deg, rgba(255, 42, 85, 0.08) 0 1px, transparent 1px 4px);
+  mix-blend-mode: screen;
+  animation: pointCloudOverlayFlicker 210ms steps(2) infinite;
+}
+
+.point-cloud-glitch-line {
+  background: linear-gradient(180deg, transparent 0%, rgba(255, 42, 85, 0.32) 46%, rgba(255, 42, 85, 0.08) 78%, transparent 100%);
+  height: 34%;
+  top: 0;
+  left: 0;
+  right: 0;
+  animation: pointCloudGlitchSweep 5.5s linear infinite;
+  mix-blend-mode: screen;
 }

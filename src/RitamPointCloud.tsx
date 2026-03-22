@@ -26,6 +26,11 @@ export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = ''
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setClearColor(0x000000, 0);
+    renderer.domElement.style.position = 'absolute';
+    renderer.domElement.style.inset = '0';
+    renderer.domElement.style.width = '100%';
+    renderer.domElement.style.height = '100%';
+    renderer.domElement.style.zIndex = '1';
     container.appendChild(renderer.domElement);
 
     const controls = new OrbitControls(camera, renderer.domElement);
@@ -126,8 +131,26 @@ export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = ''
     resizeObserver.observe(container);
 
     let frameId = 0;
+    let glitchFramesRemaining = 0;
+    let glitchOffsetX = 0;
+
     const animate = () => {
       frameId = requestAnimationFrame(animate);
+
+      if (glitchFramesRemaining <= 0 && Math.random() > 0.992) {
+        glitchFramesRemaining = 2 + Math.floor(Math.random() * 2);
+        glitchOffsetX = (Math.random() - 0.5) * 1.4;
+      }
+
+      if (glitchFramesRemaining > 0) {
+        renderer.domElement.style.transform = `translateX(${glitchOffsetX}px)`;
+        renderer.domElement.style.opacity = '0.97';
+        glitchFramesRemaining -= 1;
+      } else {
+        renderer.domElement.style.transform = 'translateX(0px)';
+        renderer.domElement.style.opacity = '1';
+      }
+
       controls.update();
       renderer.render(scene, camera);
     };
@@ -165,15 +188,17 @@ export const RitamPointCloud: React.FC<RitamPointCloudProps> = ({ className = ''
   return (
     <div
       ref={containerRef}
-      className={`${className} relative cursor-grab active:cursor-grabbing`}
+      className={`${className} relative overflow-hidden cursor-grab active:cursor-grabbing`}
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
       onMouseMove={handlePointerMove}
     >
+      <div className="point-cloud-static-overlay pointer-events-none absolute inset-0 z-[2]" />
+      <div className="point-cloud-glitch-line pointer-events-none absolute inset-0 z-[3]" />
       {isHovering && (
         <div
           className="point-cloud-cursor-static pointer-events-none absolute z-20 h-8 w-8 -translate-x-1/2 -translate-y-1/2 rounded-full"
-          style={{ left: cursorPos.x, top: cursorPos.y }}
+          style={{ left: cursorPos.x, top: cursorPos.y, zIndex: 5 }}
         />
       )}
     </div>
