@@ -284,22 +284,19 @@ const MinimalAudioPlayer: React.FC<MinimalAudioPlayerProps> = ({ className = '' 
 
         <div className="flex items-center gap-2">
           <button
-            onClick={playAudio}
+            onClick={isPlaying ? pauseAudio : playAudio}
             className="h-7 w-7 border border-[#FF2A55]/40 text-[#FF2A55] hover:bg-[#FF2A55] hover:text-black transition-colors duration-200"
-            aria-label="Play music"
+            aria-label={isPlaying ? 'Pause music' : 'Play music'}
           >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mx-auto h-3.5 w-3.5">
-              <path d="M8 5v14l11-7z" />
-            </svg>
-          </button>
-          <button
-            onClick={pauseAudio}
-            className="h-7 w-7 border border-[#FF2A55]/40 text-[#FF2A55] hover:bg-[#FF2A55] hover:text-black transition-colors duration-200"
-            aria-label="Pause music"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mx-auto h-3.5 w-3.5">
-              <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
-            </svg>
+            {isPlaying ? (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mx-auto h-3.5 w-3.5">
+                <path d="M6 5h4v14H6zm8 0h4v14h-4z" />
+              </svg>
+            ) : (
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="mx-auto h-3.5 w-3.5">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            )}
           </button>
         </div>
       </div>
@@ -454,7 +451,7 @@ const App: React.FC = () => {
               <div className="relative w-full">
                 <div className="max-w-3xl xl:max-w-4xl">
                 <div className="space-y-8 md:space-y-12 min-w-0">
-                  <div className="space-y-6">
+                  <div className="mt-8 md:mt-12 space-y-6">
                     
                     <div className={`space-y-4 transition-all duration-1000 delay-[500ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                       <p className="text-[#FF2A55]/70 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
