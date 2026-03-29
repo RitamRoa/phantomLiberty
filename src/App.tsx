@@ -156,12 +156,9 @@ const TechStack = () => {
            <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-3">
                   <div className="w-2.5 h-2.5 bg-[#ff0033] rounded-full animate-pulse" />
-                  <h3 className="text-sm font-bold tracking-[0.3em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>Loadout_v4.2</h3>
+                  <h3 className="text-sm font-bold tracking-[0.3em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>What_i_know_</h3>
               </div>
-              <div className="text-right">
-                <div className="text-[10px] text-[#ff0033] font-bold font-mono tracking-[0.2em]">CORE_SYNCED</div>
-                <div className="text-[8px] text-[#ff0033]/40 font-mono tracking-tighter uppercase">Memory_Mapped</div>
-              </div>
+              <div className="text-right"></div>
           </div>
 
           <div className="relative flex-1 flex items-center overflow-hidden w-full">
@@ -455,10 +452,10 @@ const App: React.FC = () => {
                     
                     <div className={`space-y-4 transition-all duration-1000 delay-[500ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
                       <p className="text-[#FF2A55]/70 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-                      </p>
-                      <p className="text-[#FF2A55]/60 text-lg md:text-xl leading-relaxed max-w-2xl" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                        Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                        1. Coding through weird projects <pre></pre>
+                        2. Learning Finance <pre></pre>
+                        3. Majoring in AI ML <pre></pre>
+                        4. Improving, Improving, Improving..........<pre></pre>
                       </p>
                     </div>
 
@@ -468,7 +465,7 @@ const App: React.FC = () => {
                           <div className="w-2 h-2 bg-[#ff0033] rounded-full animate-pulse" />
                           <h3 className="text-[10px] font-bold tracking-[0.2em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>Point_Cloud</h3>
                         </div>
-                        <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase">Ritam.v2</span>
+                        <span className="text-[8px] text-[#ff0033]/60 font-mono tracking-widest uppercase"></span>
                       </div>
                       <RitamPointCloud className="w-full h-[300px] sm:h-[360px]" />
                       <MinimalAudioPlayer className="mt-8 max-w-[380px]" />
@@ -520,13 +517,8 @@ const App: React.FC = () => {
                     </div>
                   </div>
 
-                  <div className={`flex space-x-10 pt-12 text-[10px] tracking-[0.6em] uppercase transition-all duration-1000 delay-[1100ms] ${showDescription ? 'opacity-100' : 'opacity-0'}`}>
-                    <a href="#" className="hover:text-white transition-all text-[#FF2A55] border-b border-[#FF2A55]/50 pb-2 hover:border-[#FF2A55]">ACCESS_WORKS</a>
-                    <a href="#" className="hover:text-white transition-all text-[#FF2A55]/60">INIT_COMMS</a>
-                  </div>
-
                   {/* Bento Section - Widgets */}
-                    <div className={`mt-24 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[920px] xl:max-w-[980px] transition-all duration-1000 delay-[1300ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
+                    <div className={`pt-12 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-[920px] xl:max-w-[980px] transition-all duration-1000 delay-[1100ms] ${showDescription ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'}`}>
                       <GitHubContributionGrid />
                       <TechStack />
                   </div>
