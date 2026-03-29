@@ -188,7 +188,7 @@ const TechStack = () => {
               </div>
               <div className="border border-[#ff0033]/10 rounded-lg p-3 bg-white/1">
                 <div className="text-[8px] text-[#ff0033]/40 uppercase tracking-widest mb-1">SYSTEM_OS</div>
-                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">MiLiTEk CAnto</div>
+                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">MiLiTEk CAnto Mk6</div>
               </div>
           </div>
       </div>
