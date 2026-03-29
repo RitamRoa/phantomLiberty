@@ -184,11 +184,11 @@ const TechStack = () => {
           <div className="mt-8 grid grid-cols-2 gap-4">
               <div className="border border-[#ff0033]/10 rounded-lg p-3 bg-white/1">
                 <div className="text-[8px] text-[#ff0033]/40 uppercase tracking-widest mb-1">MOST_ACTIVE</div>
-                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">FRONTEND_ENGINEERING</div>
+                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">LEARNING_MaChine</div>
               </div>
               <div className="border border-[#ff0033]/10 rounded-lg p-3 bg-white/1">
                 <div className="text-[8px] text-[#ff0033]/40 uppercase tracking-widest mb-1">SYSTEM_OS</div>
-                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">NEURAL_PROJECT_X</div>
+                <div className="text-xs font-bold text-[#ff0033] font-mono tracking-tight">MiLiTEk CAnto</div>
               </div>
           </div>
       </div>
@@ -275,7 +275,7 @@ const MinimalAudioPlayer: React.FC<MinimalAudioPlayerProps> = ({ className = '' 
     <div className={`mt-3 w-full rounded-md border border-[#FF2A55]/25 bg-[#050505]/80 px-3 py-2 backdrop-blur-sm ${className}`}>
       <div className="flex items-center justify-between gap-3">
         <div className="min-w-0">
-          <p className="text-[9px] font-mono uppercase tracking-[0.18em] text-[#FF2A55]/60">Now Playing</p>
+          <p className="text-[9px] font-mono uppercase tracking-[0.18em] text-[#FF2A55]/60">Now Playing - FAV song</p>
           <p className="truncate text-[11px] font-mono uppercase tracking-[0.14em] text-[#FF2A55]">Phantom Liberty</p>
         </div>
 
