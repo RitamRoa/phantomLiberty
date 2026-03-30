@@ -156,7 +156,7 @@ const TechStack = () => {
            <div className="flex items-center justify-between mb-8">
               <div className="flex items-center space-x-3">
                   <div className="w-2.5 h-2.5 bg-[#ff0033] rounded-full animate-pulse" />
-                  <h3 className="text-sm font-bold tracking-[0.3em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>What_i_know_</h3>
+                  <h3 className="text-sm font-bold tracking-[0.3em] text-[#ff0033] uppercase" style={{ fontFamily: '"Orbitron", sans-serif' }}>TECH_STACK_</h3>
               </div>
               <div className="text-right"></div>
           </div>
