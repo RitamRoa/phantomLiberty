@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Player } from '@remotion/player';
 import { BaselineAnimation } from './BaselineAnimation';
-import { AsciiSphere } from './AsciiSphere';
 import { RitamPointCloud } from './RitamPointCloud';
 
 const GitHubContributionGrid = () => {
@@ -619,80 +618,7 @@ const App: React.FC = () => {
             showExperiences ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <div ref={experienceScrollRef} className="h-full overflow-y-auto pt-32 pb-64">
-            <button 
-              onClick={() => setShowExperiences(false)}
-              className="absolute top-12 left-8 md:left-32 z-[50] text-[#FF2A55] flex items-center space-x-2 font-bold uppercase tracking-[0.2em] text-sm hover:translate-x-[-4px] transition-transform group"
-              style={{ fontFamily: '"Orbitron", sans-serif' }}
-            >
-              <svg className="w-6 h-6 rotate-180 group-hover:drop-shadow-[0_0_8px_#FF2A55]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-              <span>Go Back</span>
-            </button>
-
-            <div className="relative w-full" style={{ paddingLeft: '8rem', paddingRight: '4rem' }}>
-                    <div className="absolute right-[clamp(2rem,6vw,5rem)] top-1/2 -translate-y-1/2 z-[45] pointer-events-auto hidden xl:block">
-                      <div className="w-[460px] h-[460px] hover:cursor-grab active:cursor-grabbing">
-                        <AsciiSphere color="#FF2A55" size={460} />
-                      </div>
-                    </div>
-                    {/* Section Header */}
-                    <div className="mb-20">
-                    <div className="-skew-x-[15deg] inline-block">
-                    <h2 className="text-6xl md:text-8xl whitespace-nowrap uppercase tracking-tighter italic relative inline-block z-30"
-                        style={{ 
-                            fontFamily: 'Cyberpunk, cursive',
-                            color: '#FF2A55',
-                            textShadow: '0 0 40px rgba(255, 42, 85, 0.6), 0 0 80px rgba(255, 42, 85, 0.2)'
-                        }}>
-                        Experiences
-                        <div className="absolute -bottom-2 left-0 w-full h-1 bg-[#FF2A55] opacity-50" />
-                    </h2>
-                    </div>
-                    <div className="mt-4 flex items-center space-x-2">
-                        <div className="w-2 h-2 bg-[#FF2A55] animate-pulse" />
-                        <span className="text-xs text-[#FF2A55]/60 font-mono tracking-[0.3em] uppercase">Career_Logs // Decryped</span>
-                    </div>
-                 </div>
-
-                 {/* Experience Items Placeholder */}
-                 <div className="space-y-12 border-l-2 border-[#FF2A55]/20 pl-8 ml-4 md:ml-10">
-                     
-                     {/* Experience Item 1 */}
-                     <div className="relative group">
-                         {/* Timeline Dot */}
-                         <div className="absolute -left-[41px] top-2 w-5 h-5 bg-[#0a0a0a] border-2 border-[#FF2A55] rounded-full group-hover:bg-[#FF2A55] group-hover:shadow-[0_0_20px_rgba(255,42,85,0.6)] transition-all duration-300">
-                            <div className="absolute inset-0 bg-[#FF2A55] rounded-full opacity-0 group-hover:animate-ping" />
-                         </div>
-
-                         <div className="space-y-2 mb-2">
-                             <div className="text-xs text-[#FF2A55] font-mono tracking-widest uppercase">2023 - Present</div>
-                             <h3 className="text-2xl md:text-3xl text-white font-bold uppercase tracking-wide" style={{ fontFamily: '"Orbitron", sans-serif' }}>Senior Netrunner</h3>
-                             <div className="text-sm text-[#FF2A55]/80 font-mono uppercase tracking-wider">Arasaka Corp (Placeholder)</div>
-                         </div>
-                         <p className="text-[#FF2A55]/60 text-base md:text-lg max-w-2xl leading-relaxed" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Breaching firewalls and extracting secure data packages. Leading a team of phantom agents in cyberspace.
-                         </p>
-                     </div>
-
-                      {/* Experience Item 2 */}
-                      <div className="relative group">
-                         <div className="absolute -left-[41px] top-2 w-5 h-5 bg-[#0a0a0a] border-2 border-[#FF2A55] rounded-full group-hover:bg-[#FF2A55] group-hover:shadow-[0_0_20px_rgba(255,42,85,0.6)] transition-all duration-300" />
-
-                         <div className="space-y-2 mb-2">
-                             <div className="text-xs text-[#FF2A55] font-mono tracking-widest uppercase">2021 - 2023</div>
-                             <h3 className="text-2xl md:text-3xl text-white font-bold uppercase tracking-wide" style={{ fontFamily: '"Orbitron", sans-serif' }}>Cyber Security Analyst</h3>
-                             <div className="text-sm text-[#FF2A55]/80 font-mono uppercase tracking-wider">Militech Systems</div>
-                         </div>
-                         <p className="text-[#FF2A55]/60 text-base md:text-lg max-w-2xl leading-relaxed" style={{ fontFamily: '"Orbitron", sans-serif' }}>
-                             Identifying vulnerabilities in neural networks. Protocol enforcement and ICE development for high-security data fortresses.
-                         </p>
-                     </div>
-
-                 </div>
-            </div>
-          </div>
+          <div ref={experienceScrollRef} className="h-full overflow-y-auto" />
         </section>
 
         {/* Scroll Indicator */}
