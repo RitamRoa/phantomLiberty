@@ -695,31 +695,6 @@ const App: React.FC = () => {
           </div>
         </section>
 
-        {/* Navigation Arrow Button (Bottom Right) */}
-        <button 
-          onClick={() => setShowExperiences(true)}
-          className={`fixed bottom-12 right-12 z-[50] flex flex-col items-end space-y-3 group transition-all duration-1000 ${
-            showDescription && !showExperiences ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10 pointer-events-none'
-          }`}
-        >
-          <span className="text-[13px] text-[#FF2A55] font-mono tracking-[0.3em] uppercase opacity-80 group-hover:opacity-100 transition-opacity" style={{ animation: 'textFlicker 0.15s infinite' }}>Show_Experiences</span>
-          <div className="relative flex items-center h-10">
-             {/* Continuous Animated Tail */}
-             <div className="w-[320px] h-[4px] arrow-flowing-tail" 
-                  style={{
-                    background: 'linear-gradient(90deg, transparent 0%, rgba(255,42,85,0.3) 20%, rgba(255,42,85,0.9) 60%, rgba(255,42,85,1) 100%)',
-                    boxShadow: '0 0 12px rgba(255,42,85,0.6)'
-                  }}
-             />
-             {/* Arrow Head - seamlessly connected */}
-             <div className="relative -ml-[2px] flex items-center">
-               <svg className="w-11 h-11 text-[#FF2A55]" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6-1.41-1.41z" />
-               </svg>
-             </div>
-          </div>
-        </button>
-
         {/* Scroll Indicator */}
         <div className={`fixed bottom-12 left-1/2 -translate-x-1/2 transition-opacity duration-1000 ${showDescription && !showExperiences ? 'opacity-40' : 'opacity-0'}`}>
           <div className="w-[1px] h-20 bg-gradient-to-bottom from-[#FF2A55] to-transparent animate-pulse" />
