@@ -320,6 +320,9 @@ const App: React.FC = () => {
   const [isAboutPinned, setIsAboutPinned] = useState(false);
   const [showDescription, setShowDescription] = useState(false);
   const [showExperiences, setShowExperiences] = useState(false);
+  const experienceScrollRef = useRef<HTMLDivElement | null>(null);
+  const scrollLockRef = useRef(false);
+  const touchStartYRef = useRef<number | null>(null);
 
   useEffect(() => {
     // Automatically transition after intro duration (5s) as a fallback
@@ -348,6 +351,87 @@ const App: React.FC = () => {
       };
     }
   }, [isVideoDone]);
+
+  useEffect(() => {
+    const releaseLock = () => {
+      window.setTimeout(() => {
+        scrollLockRef.current = false;
+      }, 850);
+    };
+
+    const goToExperiences = () => {
+      if (showExperiences || scrollLockRef.current) return;
+      scrollLockRef.current = true;
+      setShowExperiences(true);
+      releaseLock();
+    };
+
+    const goToAbout = () => {
+      if (!showExperiences || scrollLockRef.current) return;
+      scrollLockRef.current = true;
+      setShowExperiences(false);
+      releaseLock();
+    };
+
+    const onWheel = (event: WheelEvent) => {
+      if (!isVideoDone || !showDescription) return;
+      if (Math.abs(event.deltaY) < 16) return;
+
+      if (!showExperiences && event.deltaY > 0) {
+        event.preventDefault();
+        goToExperiences();
+        return;
+      }
+
+      if (showExperiences && event.deltaY < 0) {
+        const panel = experienceScrollRef.current;
+        if (panel && panel.scrollTop <= 4) {
+          event.preventDefault();
+          goToAbout();
+        }
+      }
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      touchStartYRef.current = event.touches[0]?.clientY ?? null;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      if (!isVideoDone || !showDescription) return;
+      const startY = touchStartYRef.current;
+      const currentY = event.touches[0]?.clientY;
+      if (startY == null || currentY == null) return;
+
+      const deltaY = startY - currentY;
+      if (Math.abs(deltaY) < 32) return;
+
+      if (!showExperiences && deltaY > 0) {
+        event.preventDefault();
+        goToExperiences();
+        touchStartYRef.current = currentY;
+        return;
+      }
+
+      if (showExperiences && deltaY < 0) {
+        const panel = experienceScrollRef.current;
+        if (panel && panel.scrollTop <= 4) {
+          event.preventDefault();
+          goToAbout();
+          touchStartYRef.current = currentY;
+        }
+      }
+    };
+
+    window.addEventListener('wheel', onWheel, { passive: false });
+    window.addEventListener('touchstart', onTouchStart, { passive: true });
+    window.addEventListener('touchmove', onTouchMove, { passive: false });
+
+    return () => {
+      window.removeEventListener('wheel', onWheel);
+      window.removeEventListener('touchstart', onTouchStart);
+      window.removeEventListener('touchmove', onTouchMove);
+    };
+  }, [isVideoDone, showDescription, showExperiences]);
 
   return (
     <div className="relative w-full min-h-screen bg-black overflow-x-hidden font-mono">
@@ -535,7 +619,7 @@ const App: React.FC = () => {
             showExperiences ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <div className="h-full overflow-y-auto pt-32 pb-64">
+          <div ref={experienceScrollRef} className="h-full overflow-y-auto pt-32 pb-64">
             <button 
               onClick={() => setShowExperiences(false)}
               className="absolute top-12 left-8 md:left-32 z-[50] text-[#FF2A55] flex items-center space-x-2 font-bold uppercase tracking-[0.2em] text-sm hover:translate-x-[-4px] transition-transform group"
