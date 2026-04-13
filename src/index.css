@@ -119,3 +119,130 @@ body {
   animation: pointCloudGlitchSweep 5.5s linear infinite;
   mix-blend-mode: screen;
 }
+
+@keyframes asciiFloat {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-6px) scale(1.003);
+  }
+}
+
+@keyframes asciiFlicker {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1) contrast(1.02);
+  }
+  35% {
+    opacity: 0.97;
+    filter: brightness(0.95) contrast(1.06);
+  }
+  65% {
+    opacity: 0.985;
+    filter: brightness(1.03) contrast(1.08);
+  }
+}
+
+@keyframes asciiGlitchRed {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  12% {
+    transform: translate(1px, -1px);
+    opacity: 0.22;
+  }
+  14% {
+    transform: translate(-2px, 1px);
+    opacity: 0;
+  }
+  51% {
+    transform: translate(2px, 0);
+    opacity: 0.18;
+  }
+  53% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes asciiGlitchWhite {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+  28% {
+    transform: translate(-1px, 1px);
+    opacity: 0.18;
+  }
+  30% {
+    transform: translate(1px, -1px);
+    opacity: 0;
+  }
+  74% {
+    transform: translate(-2px, 0);
+    opacity: 0.15;
+  }
+  76% {
+    transform: translate(0, 0);
+    opacity: 0;
+  }
+}
+
+@keyframes asciiScanline {
+  0% {
+    transform: translateY(-130%);
+    opacity: 0;
+  }
+  6% {
+    transform: translateY(-80%);
+    opacity: 0.12;
+  }
+  11% {
+    transform: translateY(130%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(130%);
+    opacity: 0;
+  }
+}
+
+.ascii-art-animated-shell {
+  animation: asciiFloat 6s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px rgba(255, 42, 85, 0.2));
+}
+
+.ascii-art-base {
+  animation: asciiFlicker 120ms steps(2) infinite;
+}
+
+.ascii-art-glitch {
+  mix-blend-mode: screen;
+}
+
+.ascii-art-glitch-red {
+  filter: saturate(1.2) hue-rotate(-8deg);
+  animation: asciiGlitchRed 2.4s steps(2) infinite;
+}
+
+.ascii-art-glitch-white {
+  filter: grayscale(1) brightness(1.1);
+  animation: asciiGlitchWhite 2.9s steps(2) infinite;
+}
+
+.ascii-art-scanline {
+  overflow: hidden;
+}
+
+.ascii-art-scanline::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(0deg, rgba(255, 42, 85, 0.08) 0 1px, transparent 1px 3px),
+    linear-gradient(180deg, transparent 0%, rgba(255, 42, 85, 0.22) 48%, transparent 100%);
+  mix-blend-mode: screen;
+  animation: asciiScanline 5s linear infinite;
+}

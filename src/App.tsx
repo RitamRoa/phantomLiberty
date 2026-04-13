@@ -618,7 +618,33 @@ const App: React.FC = () => {
             showExperiences ? 'translate-x-0' : 'translate-x-full'
           }`}
         >
-          <div ref={experienceScrollRef} className="h-full overflow-y-auto" />
+          <div ref={experienceScrollRef} className="h-full overflow-y-auto">
+            <div className="min-h-screen w-full flex items-center justify-center px-4 py-10">
+              <div className="ascii-art-animated-shell relative w-full max-w-[760px] select-none">
+                <img
+                  src="/ascii-art.png"
+                  alt="ASCII art"
+                  className="ascii-art-base w-full"
+                  draggable={false}
+                />
+                <img
+                  src="/ascii-art.png"
+                  alt=""
+                  className="ascii-art-glitch ascii-art-glitch-red pointer-events-none absolute inset-0 w-full"
+                  draggable={false}
+                  aria-hidden="true"
+                />
+                <img
+                  src="/ascii-art.png"
+                  alt=""
+                  className="ascii-art-glitch ascii-art-glitch-white pointer-events-none absolute inset-0 w-full"
+                  draggable={false}
+                  aria-hidden="true"
+                />
+                <div className="ascii-art-scanline pointer-events-none absolute inset-0" aria-hidden="true" />
+              </div>
+            </div>
+          </div>
         </section>
 
         {/* Scroll Indicator */}
