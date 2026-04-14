@@ -29,3 +29,5 @@ A Cyberpunk inspired animation built with Remotion and React.
 - [Remotion](https://www.remotion.dev/) - For video manipulation in React.
 - pnpm - For fast dependency management.
 - React & TypeScript.
+
+~ made with ❤️ by roa
